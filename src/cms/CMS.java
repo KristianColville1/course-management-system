@@ -5,8 +5,9 @@
 package cms;
 
 /**
- *
- * @author kristian
+ * @author kristian colville
+ * @student sba23246
+ * @github https://github.com/KristianColville1/course-management-system
  */
 public class CMS {
 
