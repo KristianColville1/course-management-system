@@ -30,9 +30,14 @@ public class JettyHttpResponseAdapter implements IHttpResponse {
         this.originalResponse = originalResponse;
     }
 
+    /**
+     * Sets the content type of the response
+     *
+     * @param type is the MIME type for the content returned
+     */
     @Override
     public void setContentType(String type) {
-
+        originalResponse.setContentType(type);
     }
 
     @Override
