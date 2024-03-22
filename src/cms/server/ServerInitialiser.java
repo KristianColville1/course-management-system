@@ -41,7 +41,7 @@ public class ServerInitialiser {
 
     /**
      * Starts the Jetty server.
-     * 
+     *
      * Initializes the server if it has not been already and sets up the handler
      * for processing HTTP requests.
      */
@@ -57,12 +57,27 @@ public class ServerInitialiser {
                 }
             });
         }
-        
+
         try {
             this.server.start();
             this.server.join();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(new ServerStartException().getMessage());
+        }
+    }
+
+    /**
+     * Stops the Jetty server.
+     *
+     * Responsible for turning off the server. Tries to turn it off gracefully.
+     */
+    public void stop() {
+        if (this.server != null) {
+            try {
+                this.server.stop();
+            } catch (Exception e) {
+                System.out.println(new ServerStopException().getMessage());
+            }
         }
     }
 }
