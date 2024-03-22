@@ -7,6 +7,7 @@ package cms.server.adapters;
 import cms.server.IHttpResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
@@ -42,7 +43,7 @@ public class JettyHttpResponseAdapter implements IHttpResponse {
 
     /**
      * Sets the HTTP status code in the response
-     * 
+     *
      * @param statusCode is the HTTP status code for the response
      */
     @Override
@@ -50,9 +51,17 @@ public class JettyHttpResponseAdapter implements IHttpResponse {
         originalResponse.setStatus(statusCode);
     }
 
+    /**
+     * Writes data to the response body
+     *
+     * @param data is the data to write to the body
+     * @throws IOException if there's an input or output error
+     */
     @Override
     public void write(String data) throws IOException {
-
+        PrintWriter writer = originalResponse.getWriter();
+        writer.write(data);
+        writer.flush(); // ensures the data is sent to the client
     }
 
 }
