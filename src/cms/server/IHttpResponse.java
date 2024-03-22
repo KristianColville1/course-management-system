@@ -14,7 +14,7 @@ import java.io.IOException;
  * setting response metadata like content type and status code as well as
  * writing any output to the response body in a server agnostic manner.
  */
-public interface IHTTPResponse {
+public interface IHttpResponse {
 
     /**
      * Sets the content type of the response.

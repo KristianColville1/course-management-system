@@ -54,6 +54,7 @@ public class ServerInitialiser {
                 public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
                         throws IOException, ServletException {
                     // test processing here
+                    
                 }
             });
         }
@@ -79,5 +80,13 @@ public class ServerInitialiser {
                 System.out.println(new ServerStopException().getMessage());
             }
         }
+    }
+    
+        private void processRequest(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        response.setContentType("text/html; charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println("<h1>Hello from Jetty</h1>");
+        baseRequest.setHandled(true);
     }
 }

@@ -4,10 +4,14 @@
  */
 package cms.server.adapters;
 
+import cms.server.IHttpResponse;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  *
  * @author kristian
  */
-public class JettyHttpResponseAdapter {
+public class JettyHttpResponseAdapter implements IHttpResponse{
     
 }

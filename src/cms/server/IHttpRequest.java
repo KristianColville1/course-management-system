@@ -14,7 +14,7 @@ import java.util.Map;
  * access to the common elements of a HTTP request such as headers, parameters
  * and the request path. This is all done in a server agnostic manner.
  */
-public interface IHTTPRequest {
+public interface IHttpRequest {
 
     /**
      * Retrieves the request path.
