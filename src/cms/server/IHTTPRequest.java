@@ -4,6 +4,8 @@
  */
 package cms.server;
 
+import java.util.Map;
+
 /**
  *
  * @author kristian
@@ -27,12 +29,21 @@ public interface IHTTPRequest {
      * @return a string representing the HTTP method request used (POST,GET etc)
      */
     String getMethod();
-    
+
     /**
      * Retrieves a single header given its name
-     * 
+     *
      * @param name is the header to retrieve
      * @return the header value as a string. Return null if header not found.
      */
     String getHeader(String name);
+
+    /**
+     * Retrieves all the parameters of a request as a map. Each key in the map
+     * is the parameter name and the value is an array of strings which contain
+     * all the values for that parameter
+     *
+     * @return a map of parameters and their values
+     */
+    Map<String, String[]> getParameters();
 }
