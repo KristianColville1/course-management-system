@@ -4,6 +4,8 @@
  */
 package cms.server;
 
+import java.io.IOException;
+
 /**
  *
  * @author kristian
@@ -21,14 +23,19 @@ public interface IHTTPResponse {
      * response
      */
     void setContentType(String type);
-    
+
     /**
      * Sets the HTTP status code of the response.
      *
      * @param statusCode is the HTTP status code
      */
     void setStatusCode(int statusCode);
-    
-    
-    
+
+    /**
+     * Writes data to a response body.
+     *
+     * @param data is the data to write to the response body
+     * @throws IOException if an input or output exception occurs
+     */
+    void write(String data) throws IOException;
 }
