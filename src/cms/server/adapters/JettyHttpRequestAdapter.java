@@ -28,4 +28,15 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public JettyHttpRequestAdapter(HttpServletRequest originalRequest) {
         this.originalRequest = originalRequest;
     }
+    
+    /**
+     * Retrieves the request URI
+     * @return a string representation of the request URI.
+     */
+    @override
+    public String getPath(){
+        return originalRequest.getRequestURI();
+    }
+    
+    
 }
