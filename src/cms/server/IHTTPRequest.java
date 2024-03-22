@@ -20,4 +20,11 @@ public interface IHTTPRequest {
      * @return a string representing of the path the request is targeting.
      */
     String getPath();
+
+    /**
+     * Retrieves the HTTP method of the request.
+     *
+     * @return a string representing the HTTP method request used (POST,GET etc)
+     */
+    String getMethod();
 }
