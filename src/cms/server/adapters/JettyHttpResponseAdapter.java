@@ -13,5 +13,20 @@ import java.io.IOException;
  * @author kristian
  */
 public class JettyHttpResponseAdapter implements IHttpResponse{
+
+    @Override
+    public void setContentType(String type) {
+        
+    }
+
+    @Override
+    public void setStatusCode(int statusCode) {
+        
+    }
+
+    @Override
+    public void write(String data) throws IOException {
+        
+    }
     
 }
