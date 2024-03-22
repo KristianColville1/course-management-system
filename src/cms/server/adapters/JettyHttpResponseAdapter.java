@@ -40,9 +40,14 @@ public class JettyHttpResponseAdapter implements IHttpResponse {
         originalResponse.setContentType(type);
     }
 
+    /**
+     * Sets the HTTP status code in the response
+     * 
+     * @param statusCode is the HTTP status code for the response
+     */
     @Override
     public void setStatusCode(int statusCode) {
-
+        originalResponse.setStatus(statusCode);
     }
 
     @Override
