@@ -15,11 +15,27 @@ import java.io.IOException;
 /**
  *
  * @author kristian
- * 
- * Responsible for initializing the application server instance 
+ *
+ * Responsible for initializing the application server instance
  */
 public class ServerInitialiser {
+
     // instance fields
     private int port;
 
+    /**
+     * Default Constructor for ServerInitialiser 
+     * 
+     * - Sets up server dependencies
+     * through dependency injection. 
+     * 
+     * - The port number is used to determine on
+     * which network port the server will listen for incoming HTTP requests.
+     *
+     * @param port is the number of the port that the server will listen for
+     * incoming connections
+     */
+    public ServerInitialiser(int port) {
+        this.port = port;
+    }
 }
