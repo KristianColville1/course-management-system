@@ -14,4 +14,10 @@ package cms.server;
  */
 public interface IHTTPRequest {
 
+    /**
+     * Retrieves the request path.
+     *
+     * @return a string representing of the path the request is targeting.
+     */
+    String getPath();
 }
