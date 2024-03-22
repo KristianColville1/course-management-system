@@ -59,4 +59,15 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public String getHeader(String name){
         return originalRequest.getHeader(name);
     }
+    
+    
+    /**
+     * Retrieves all the parameters from a request as a map.
+     * 
+     * @return map of parameters as keys and values in map 
+     */
+    @Override
+    public Map<String, String[]> getParameters(){
+        return originalRequest.getParameterMap();
+    }
 }
