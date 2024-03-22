@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  *
  * @author kristian
- * 
- * Adapter class that wraps a Jetty HttpServletRequest and adapts it to the 
+ *
+ * Adapter class that wraps a Jetty HttpServletRequest and adapts it to the
  * IHttpRequest interface. Allows the rest of the application to interact with
  * the request in a server agnostic manner.
  */
@@ -23,20 +23,30 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
 
     /**
      * JettyHttpRequestAdapter Constructor with the original request
+     *
      * @param originalRequest is the Jetty HttpServletRequest to be adapted
      */
     public JettyHttpRequestAdapter(HttpServletRequest originalRequest) {
         this.originalRequest = originalRequest;
     }
-    
+
     /**
-     * Retrieves the request URI
+     * Retrieves the request URI.
+     *
      * @return a string representation of the request URI.
      */
-    @override
-    public String getPath(){
+    @Override
+    public String getPath() {
         return originalRequest.getRequestURI();
     }
-    
-    
+
+    /**
+     * Retrieves the HTTP method of the request.
+     *
+     * @return a string representation of the HTTP method
+     */
+    @Override
+    public String getMethod() {
+        return originalRequest.getMethod();
+    }
 }
