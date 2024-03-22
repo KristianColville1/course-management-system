@@ -27,4 +27,12 @@ public interface IHTTPRequest {
      * @return a string representing the HTTP method request used (POST,GET etc)
      */
     String getMethod();
+    
+    /**
+     * Retrieves a single header given its name
+     * 
+     * @param name is the header to retrieve
+     * @return the header value as a string. Return null if header not found.
+     */
+    String getHeader(String name);
 }
