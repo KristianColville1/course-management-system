@@ -7,7 +7,18 @@ package cms.server;
 /**
  *
  * @author kristian
+ *
+ * This interface represents an abstraction over a HTTP response. It allows for
+ * setting response metadata like content type and status code as well as
+ * writing any output to the response body in a server agnostic manner.
  */
-public class IHTTPResponse {
-    
+public interface IHTTPResponse {
+
+    /**
+     * Sets the content type of the response.
+     *
+     * @param type is the MIME type of the content to be returned in the
+     * response
+     */
+    void setContentType(String type);
 }
