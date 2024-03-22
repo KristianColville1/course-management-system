@@ -21,4 +21,14 @@ public interface IHTTPResponse {
      * response
      */
     void setContentType(String type);
+    
+    /**
+     * Sets the HTTP status code of the response.
+     *
+     * @param statusCode is the HTTP status code
+     */
+    void setStatusCode(int statusCode);
+    
+    
+    
 }
