@@ -27,6 +27,18 @@ import java.io.IOException;
  */
 public class RequestHandler extends AbstractHandler {
 
+    // instance fields
+    private final DynamicRouter router;
+
+    /**
+     * Default Constructor for RequestHandler
+     * 
+     * Sets up the dynamic router to use.
+     */
+    public RequestHandler() {
+        this.router = new DynamicRouter();
+    }
+
     /**
      * Processes all HTTP requests and delegates the work to the controllers. It
      * is overridden from AbstractHandler and is called by the server for each
