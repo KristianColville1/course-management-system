@@ -6,20 +6,17 @@ package cms.server;
 
 import cms.server.adapters.JettyHttpRequestAdapter;
 import cms.server.adapters.JettyHttpResponseAdapter;
+import cms.server.annotations.Route;
+import cms.server.controllers.TestController;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Method;
-import cms.server.annotations.Route;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -45,6 +42,7 @@ public class RequestHandler extends AbstractHandler {
      */
     public RequestHandler() {
         this.router = new DynamicRouter();
+        registerAnnotatedRoutes();
     }
 
     /**
@@ -64,57 +62,44 @@ public class RequestHandler extends AbstractHandler {
      */
     private void registerAnnotatedRoutes() {
         List<Class<? extends ControllerBase>> controllerClasses
-                = new ArrayList<>();
-        // TODO: Populate list above with Controller classes
-
+                = fetchControllers();
         for (Class<? extends ControllerBase> controllerClass : controllerClasses) {
             for (Method method : controllerClass.getDeclaredMethods()) {
                 if (method.isAnnotationPresent(Route.class)) {
                     Route routeAnnotation = method.getAnnotation(Route.class);
-
-                    // Instantiate the controller class
-                    ControllerBase controllerInstance;
                     try {
-                        controllerInstance = controllerClass.newInstance();
-
-                        // ensures the method is accessible
-                        method.setAccessible(true);
-
-                        // Create a ServerRoute with the controller method logic
-                        // encapsulated within a handleRequest invocation
+                        ControllerBase controller = controllerClass.getDeclaredConstructor().newInstance();
                         ServerRoute route = new ServerRoute(
                                 routeAnnotation.path(),
                                 routeAnnotation.method(),
-                                new ControllerBase() {
-                            @Override
-                            public void handleRequest(
-                                    IHttpRequest request,
-                                    IHttpResponse response) {
-                                try {
-                                    method.invoke(
-                                            controllerInstance,
-                                            request,
-                                            response);
-                                } catch (IllegalAccessException
-                                        | InvocationTargetException e) {
-                                    throw new RuntimeException(
-                                            "Error while handling request",
-                                            e);
-                                }
-                            }
-                        }
+                                controller,
+                                method
                         );
-
-                        // register the route with the router
+                        // register the route with the dynamic router
                         router.registerRoute(route);
-
-                    } catch (InstantiationException | IllegalAccessException e) {
-                        // Log or handle the instantiation error as appropriate for your application
-                        throw new RuntimeException("Failed to instantiate controller class", e);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Responsible for collecting the controllers.
+     *
+     * The package main controllers should be added here.
+     *
+     * @return list of <Class<? extends ControllerBase>> controller classes
+     */
+    public ArrayList fetchControllers() {
+        List<Class<? extends ControllerBase>> controllerClasses
+                = new ArrayList<>();
+
+        // define controller classes here
+        controllerClasses.add(TestController.class);
+
+        return (ArrayList) controllerClasses;
     }
 
     /**
@@ -134,6 +119,7 @@ public class RequestHandler extends AbstractHandler {
      * handlers operation
      */
     @Override
+
     public void handle(
             String target,
             Request baseRequest,

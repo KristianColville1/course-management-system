@@ -23,12 +23,4 @@ public interface IRoute {
      * @return true if the route matches the request otherwise false
      */
     boolean matches(IHttpRequest request);
-
-    /**
-     * Should retrieve the controller associated with this route.
-     *
-     * @return the controller that should handle the request if this route
-     * matches.
-     */
-    ControllerBase getController();
 }

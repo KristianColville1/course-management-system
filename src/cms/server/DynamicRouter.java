@@ -30,7 +30,7 @@ public class DynamicRouter {
 
     /**
      * Dispatches the incoming request to the appropriate controller based on
-     * route.
+     * route. Calls the route to invoke the method responsible for the route.
      *
      * @param request the incoming request.
      * @param response the object to be used by the controller.
@@ -38,9 +38,8 @@ public class DynamicRouter {
     public void routeRequest(IHttpRequest request, IHttpResponse response) {
         for (IRoute route : routes) {
             if (route.matches(request)) {
-                ControllerBase controller = route.getController();
-                controller.handleRequest(request, response);
-                return; // stop after match
+                ((ServerRoute) route).invoke(request, response);
+                return;
             }
         }
 

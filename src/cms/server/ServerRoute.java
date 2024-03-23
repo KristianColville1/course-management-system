@@ -4,6 +4,8 @@
  */
 package cms.server;
 
+import java.lang.reflect.Method;
+
 /**
  *
  * @author kristian
@@ -15,22 +17,30 @@ package cms.server;
 public class ServerRoute implements IRoute {
 
     // instance fields
-    private String path;
-    private String method;
-    private ControllerBase controller;
+    private final String path;
+    private final String method;
+    private final ControllerBase controller;
+    private final Method controllerMethod;
 
     /**
      * Constructor for Route. Sets up a Route object with the path, method and
      * controller to use.
      *
-     * @param path
-     * @param method
-     * @param controller
+     * @param path used in the request
+     * @param method used in the request
+     * @param controller is an instance of the matching controller for the
+     * request
+     * @param controllerMethod the method associated with the specific request
      */
-    public ServerRoute(String path, String method, ControllerBase controller) {
+    public ServerRoute(
+            String path,
+            String method,
+            ControllerBase controller,
+            Method controllerMethod) {
         this.path = path;
         this.method = method;
         this.controller = controller;
+        this.controllerMethod = controllerMethod;
     }
 
     /**
@@ -46,13 +56,17 @@ public class ServerRoute implements IRoute {
     }
 
     /**
-     * Retrieves the controller associated with the route. Controller handles
-     * the logic for that route.
+     * Responsible for invoking the correct method for the route
      *
-     * @return the controller instance that handles the request
+     * @param request is the incoming HTTP request
+     * @param response the object to be used by the controller.
      */
-    @Override
-    public ControllerBase getController() {
-        return controller;
+    public void invoke(IHttpRequest request, IHttpResponse response) {
+        try {
+            controllerMethod.setAccessible(true);
+            controllerMethod.invoke(controller, request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
