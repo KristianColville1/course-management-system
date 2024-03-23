@@ -18,4 +18,18 @@ public class Route implements IRoute {
     private String path;
     private String method;
     private ControllerBase controller;
+    
+    /**
+     * Constructor for Route. Sets up a Route object with the path, method and
+     * controller to use.
+     * 
+     * @param path
+     * @param method
+     * @param controller 
+     */
+    public Route(String path, String method, ControllerBase controller){
+        this.path = path;
+        this.method = method;
+        this.controller = controller;
+    }
 }
