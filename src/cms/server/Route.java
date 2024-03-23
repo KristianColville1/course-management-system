@@ -32,4 +32,15 @@ public class Route implements IRoute {
         this.method = method;
         this.controller = controller;
     }
+    
+    /**
+     * Checks if the request path and method equals the routes path and method.
+     * 
+     * @param request is the incoming HTTP request to match against
+     * @return true if match otherwise false
+     */
+    @Override
+    public boolean matches(IHttpRequest request){
+        return request.getMethod().equalsIgnoreCase(method) && request.getPath().equals(path);
+    }
 }
