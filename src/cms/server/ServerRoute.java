@@ -12,7 +12,7 @@ package cms.server;
  * matching HTTP requests based on path and method, and delegating to a specific
  * controller.
  */
-public class Route implements IRoute {
+public class ServerRoute implements IRoute {
 
     // instance fields
     private String path;
@@ -27,7 +27,7 @@ public class Route implements IRoute {
      * @param method
      * @param controller
      */
-    public Route(String path, String method, ControllerBase controller) {
+    public ServerRoute(String path, String method, ControllerBase controller) {
         this.path = path;
         this.method = method;
         this.controller = controller;
