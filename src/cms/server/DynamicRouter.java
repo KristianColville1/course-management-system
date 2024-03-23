@@ -27,4 +27,26 @@ public class DynamicRouter {
     public void registerRoute(IRoute route) {
         routes.add(route);
     }
+
+    /**
+     * Dispatches the incoming request to the appropriate controller based on
+     * route.
+     *
+     * @param request the incoming request.
+     * @param response the object to be used by the controller.
+     */
+    public void routeRequest(IHttpRequest request, IHttpResponse response) {
+        for (IRoute route : routes) {
+            if (route.matches(request)) {
+                ControllerBase controller = route.getController();
+                controller.handleRequest(request, response);
+                return; // stop after match
+            }
+        }
+
+        // you would normally create 404 below if route not found
+        // terminal based only but using same logic
+        // response.setStatusCode(404);
+        // response.write("not found");
+    }
 }
