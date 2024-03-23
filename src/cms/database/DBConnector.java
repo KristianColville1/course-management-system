@@ -4,6 +4,13 @@
  */
 package cms.database;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import javax.sql.DataSource;
+
 /**
  *
  * @author kristian
@@ -16,11 +23,38 @@ package cms.database;
  * routed through a single connection mechanism.
  */
 
+@Configuration
+@PropertySource("classpath:env.properties")
 public class DBConnector {
 
     // instance fields
-    private String DB_URL;
-    private String USER;
-    private String PASSWORD;
+    @Value("${database.host}")
+    private String dbHost;
 
+    @Value("${database.user}")
+    private String user;
+
+    @Value("${database.password}")
+    private String password;
+
+    /**
+     * Creates a DataSource bean that manages the database connection.
+     *
+     * Uses the properties from the env.properties file.
+     *
+     * The DataSource is a factory for connections to the physical data source
+     * that this class represents. The created DataSource will pool the
+     * connections and reuse them.
+     *
+     * @return a configured DataSource object ready for use.
+     */
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl(dbHost);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
 }
