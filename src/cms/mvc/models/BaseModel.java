@@ -41,6 +41,7 @@ public abstract class BaseModel {
         String tableName = tableAnnotation.name(); // we get the name of table
 
         List<String> columns = new ArrayList<>(); // for storing column names
+        List<String> foreignKeys = new ArrayList<>(); // for storing foreign keys
 
         for (Field field : clazz.getDeclaredFields()) { // instance fields
             if (field.isAnnotationPresent(Column.class)) {
@@ -49,16 +50,21 @@ public abstract class BaseModel {
                 columns.add(columnDefinition);
             }
             if (field.isAnnotationPresent(ForeignKey.class)) {
-                ForeignKey foreignKey = field.getAnnotation(ForeignKey.class);
-                // TODO: get the foreign key definition
+                ForeignKey foreignKey
+                        = field.getAnnotation(ForeignKey.class);
+                String foreignKeyDefinition
+                        = getForeignKeyDefinition(foreignKey);
+                foreignKeys.add(foreignKeyDefinition);
             }
         }
 
-        // combine the column definitions
-        // TODO: the constraints if any also
-        String columnSQL = String.join(", ", columns);
+        List<String> tableDefinitions = new ArrayList<>(columns);
+        tableDefinitions.addAll(foreignKeys); // add to end
+        String tableSQL = String.join(", ", tableDefinitions); // build
+
+        // returns the table statement needed to build this.
         return String.format(
-                "CREATE TABLE %s (%s);", tableName, columnSQL);
+                "CREATE TABLE %s (%s);", tableName, tableSQL);
     }
 
     /**
@@ -79,5 +85,19 @@ public abstract class BaseModel {
                 + (!column.nullable() ? " NOT NULL" : "")
                 + (!column.defaultValue().isEmpty() ? " DEFAULT "
                 + column.defaultValue() : "");
+    }
+
+    /**
+     * Generates the foreign key statement for the create table statement
+     *
+     * @param foreignKey is the annotation information needed to build it
+     * @return a String of the foreign key statement
+     */
+    private static String getForeignKeyDefinition(ForeignKey foreignKey) {
+        return "FOREIGN KEY ("
+                + foreignKey.columnName()
+                + ") REFERENCES "
+                + foreignKey.foreignTableName()
+                + "(" + foreignKey.foreignColumnName() + ")";
     }
 }
