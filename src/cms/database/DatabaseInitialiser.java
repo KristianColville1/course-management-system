@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cms.database;
 
-import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -14,21 +10,30 @@ import org.springframework.stereotype.Component;
  * 
  * Responsible for initialising the database for the application.
  */
-@Component
 public class DatabaseInitialiser {
 
     // instance fields
-    private final DataSource dataSource;
     private final String dbName = "cms";
 
     /**
-     * Constructor for DatabaseInitialiser. Uses dependency injection through
-     * the @autowired spring annotation.
-     *
-     * @param dataSource is the DataSource for the database connections
+     * Initializes the database.
+     * 
+     * If it does not exist build it.
      */
-    @Autowired
-    public DatabaseInitialiser(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void initialise() {
+        try (Connection conn = DBConnector.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            String sql = String.format(
+                    "CREATE DATABASE IF NOT EXISTS `%s` "
+                            + "CHARACTER SET utf8mb4 "
+                            + "COLLATE utf8mb4_unicode_ci;", dbName);
+
+            stmt.executeUpdate(sql);
+            System.out.println("Database " + dbName + " initialized or already exists.");
+            
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to initialize the database: " + dbName, e);
+        }
     }
 }

@@ -24,6 +24,7 @@ import java.io.IOException;
  */
 public class DBConnector {
 
+    // instance fields
     private static String dbHost;
     private static String user;
     private static String password;

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+//import cms.home.HomeController;
 
 /**
  *
@@ -98,6 +99,7 @@ public class RequestHandler extends AbstractHandler {
 
         // define controller classes here
         controllerClasses.add(TestController.class);
+//        controllerClasses.add(HomeController.class);
 
         return (ArrayList) controllerClasses;
     }
