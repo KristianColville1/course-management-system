@@ -9,12 +9,9 @@ import java.lang.annotation.*;
  *
  * @author kristian
  * 
- * Custom annotation for model table
+ * Custom annotation for unique constraints on the models
  */
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Table {
-    String name(); // table name
-    UniqueConstraint[] uniqueConstraints() default {}; // incase needed
+public @interface UniqueConstraint {
+    String name() default "";
+    String[] columnNames(); // the constraints
 }
