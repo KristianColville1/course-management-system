@@ -4,6 +4,7 @@
  */
 package cms;
 
+import cms.database.DatabaseInitialiser;
 import cms.server.ServerInitialiser;
 
 /**
@@ -17,18 +18,20 @@ public class CMS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ServerInitialiser serverInitialiser = new ServerInitialiser(8080);
-
-        // Starting the server in its own thread
-        Thread serverThread = new Thread(() -> {
-            serverInitialiser.start();
-        });
-        serverThread.start();
-
-        Thread otherThread = new Thread(() -> {
-            System.out.println("I have started a separate thread");
-        });
-        otherThread.start();
+        DatabaseInitialiser db = new DatabaseInitialiser();
+        db.initialise();
+//        ServerInitialiser serverInitialiser = new ServerInitialiser(8080);
+//
+//        // Starting the server in its own thread
+//        Thread serverThread = new Thread(() -> {
+//            serverInitialiser.start();
+//        });
+//        serverThread.start();
+//
+//        Thread otherThread = new Thread(() -> {
+//            System.out.println("I have started a separate thread");
+//        });
+//        otherThread.start();
 
     }
 

@@ -32,7 +32,8 @@ public abstract class BaseModel {
      * @param clazz is the class to build the table statement for
      * @return a SQL CREATE TABLE statement as a String
      */
-    public static String generateCreateTableStatement(Class<?> clazz) {
+    public static String generateCreateTableStatement(
+            Class<?> clazz, String dbName) {
         if (!clazz.isAnnotationPresent(Table.class)) {
             throw new IllegalArgumentException(
                     "The class " + clazz.getSimpleName() + " does not exist");
@@ -43,7 +44,6 @@ public abstract class BaseModel {
 
         List<String> columns = new ArrayList<>(); // for storing column names
         List<String> foreignKeys = new ArrayList<>(); // for storing foreign keys
-        List<String> constraints = new ArrayList<>(); // for the constraints
 
         for (Field field : clazz.getDeclaredFields()) { // instance fields
             if (field.isAnnotationPresent(Column.class)) {
@@ -58,21 +58,24 @@ public abstract class BaseModel {
                         = getForeignKeyDefinition(foreignKey);
                 foreignKeys.add(foreignKeyDefinition);
             }
-            if (clazz.isAnnotationPresent(CheckConstraint.class)) {
-                CheckConstraint checkConstraint = clazz.getAnnotation(CheckConstraint.class);
-                String constraintSQL = "CONSTRAINT " + checkConstraint.name()
-                        + " CHECK (" + checkConstraint.condition() + ")";
-                constraints.add(constraintSQL);
-            }
         }
 
         List<String> tableDefinitions = new ArrayList<>(columns);
         tableDefinitions.addAll(foreignKeys); // add to end
+
+        // Process class-level annotations (Check Constraints)
+        if (clazz.isAnnotationPresent(CheckConstraint.class)) {
+            CheckConstraint checkConstraint = clazz.getAnnotation(CheckConstraint.class);
+            String constraintSQL = "CONSTRAINT " + checkConstraint.name() + " CHECK (" + checkConstraint.condition() + ")";
+            tableDefinitions.add(constraintSQL);
+        }
         String tableSQL = String.join(", ", tableDefinitions); // build
-        tableSQL = String.join(", ", constraints); // add constraints
         // returns the table statement needed to build this.
         return String.format(
-                "CREATE TABLE %s (%s);", tableName, tableSQL);
+                "CREATE TABLE IF NOT EXISTS %s.%s (%s);",
+                dbName,
+                tableName,
+                tableSQL);
     }
 
     /**

@@ -31,6 +31,7 @@ public class DatabaseInitialiser {
 
             stmt.executeUpdate(sql);
             System.out.println("Database " + dbName + " initialized or already exists.");
+            DBSchemaGenerator.generateSchema(conn, dbName);
             
         } catch (SQLException e) {
             throw new RuntimeException("Failed to initialize the database: " + dbName, e);

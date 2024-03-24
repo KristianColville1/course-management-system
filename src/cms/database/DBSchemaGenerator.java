@@ -6,8 +6,12 @@ package cms.database;
 
 import cms.mvc.annotations.Model;
 import cms.mvc.models.BaseModel;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import org.reflections.Reflections;
 import java.util.Set;
+
 /**
  *
  * @author kristian
@@ -17,8 +21,24 @@ import java.util.Set;
  */
 public class DBSchemaGenerator {
 
-    public static String generateSchema() {
-        return "";
+    /**
+     * Generates the database schema based on the annotated model classes. It
+     * scans the specified package for classes annotated with @Model, generates
+     * SQL CREATE TABLE statements, and executes them against the database.
+     */
+    public static void generateSchema(Connection connection, String dbName) {
+        // Using Reflections to scan for classes annotated with @Model
+        Reflections reflections = new Reflections("cms.apps");
+        Set<Class<?>> modelClasses = reflections.getTypesAnnotatedWith(Model.class);
+
+        for (Class<?> clazz : modelClasses) {
+            String createTableSQL = BaseModel.generateCreateTableStatement(clazz, dbName);
+            System.out.println("Executing SQL: " + createTableSQL);
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(createTableSQL);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
-;
 }

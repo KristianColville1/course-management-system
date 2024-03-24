@@ -7,6 +7,7 @@ package cms.apps.auth.models;
 import cms.mvc.annotations.Model;
 import cms.mvc.annotations.Table;
 import cms.mvc.annotations.Column;
+import cms.mvc.models.BaseModel;
 
 /**
  *
@@ -14,7 +15,7 @@ import cms.mvc.annotations.Column;
  */
 @Model
 @Table(name = "users")
-public class User {
+public class User extends BaseModel{
 
     // instances
     /**
