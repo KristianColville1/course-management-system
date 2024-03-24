@@ -7,6 +7,7 @@ package cms.mvc.models;
 import cms.mvc.annotations.Table;
 import cms.mvc.annotations.Column;
 import cms.mvc.annotations.ForeignKey;
+import cms.mvc.annotations.CheckConstraint;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public abstract class BaseModel {
 
         List<String> columns = new ArrayList<>(); // for storing column names
         List<String> foreignKeys = new ArrayList<>(); // for storing foreign keys
+        List<String> constraints = new ArrayList<>(); // for the constraints
 
         for (Field field : clazz.getDeclaredFields()) { // instance fields
             if (field.isAnnotationPresent(Column.class)) {
@@ -56,12 +58,18 @@ public abstract class BaseModel {
                         = getForeignKeyDefinition(foreignKey);
                 foreignKeys.add(foreignKeyDefinition);
             }
+            if (clazz.isAnnotationPresent(CheckConstraint.class)) {
+                CheckConstraint checkConstraint = clazz.getAnnotation(CheckConstraint.class);
+                String constraintSQL = "CONSTRAINT " + checkConstraint.name()
+                        + " CHECK (" + checkConstraint.condition() + ")";
+                constraints.add(constraintSQL);
+            }
         }
 
         List<String> tableDefinitions = new ArrayList<>(columns);
         tableDefinitions.addAll(foreignKeys); // add to end
         String tableSQL = String.join(", ", tableDefinitions); // build
-
+        tableSQL = String.join(", ", constraints); // add constraints
         // returns the table statement needed to build this.
         return String.format(
                 "CREATE TABLE %s (%s);", tableName, tableSQL);

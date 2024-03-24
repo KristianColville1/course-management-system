@@ -5,17 +5,15 @@
 package cms.mvc.annotations;
 
 import java.lang.annotation.*;
-
 /**
  *
  * @author kristian
- *
- * Custom annotation for unique constraints on the models - table level
- * constraint
+ * 
+ * Custom annotation for check constraints in SQL statement columns.
  */
-public @interface UniqueConstraint {
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface CheckConstraint {
     String name() default "";
-
-    String[] columnNames(); // the constraints
+    String condition(); 
 }
