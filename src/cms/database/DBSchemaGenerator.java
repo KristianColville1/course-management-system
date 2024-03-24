@@ -7,7 +7,14 @@ package cms.database;
 /**
  *
  * @author kristian
+ *
+ * Responsible for generating the database schema if they do not exist. Builds
+ * the tables for the database using reflection and the custom MVC annotations.
  */
 public class DBSchemaGenerator {
-    
+
+    public static String generateSchema() {
+        return "";
+    }
+;
 }
