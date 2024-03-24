@@ -45,7 +45,8 @@ public abstract class BaseModel {
         for (Field field : clazz.getDeclaredFields()) { // instance fields
             if (field.isAnnotationPresent(Column.class)) {
                 Column column = field.getAnnotation(Column.class);
-                // TODO: get column definition 
+                String columnDefinition = getColumnDefinition(column);
+                columns.add(columnDefinition);
             }
             if (field.isAnnotationPresent(ForeignKey.class)) {
                 ForeignKey foreignKey = field.getAnnotation(ForeignKey.class);
@@ -58,5 +59,25 @@ public abstract class BaseModel {
         String columnSQL = String.join(", ", columns);
         return String.format(
                 "CREATE TABLE %s (%s);", tableName, columnSQL);
+    }
+
+    /**
+     * Generates the column definition for the create table statement.
+     *
+     * Sets it up as typical SQL statement for a column.
+     *
+     * @param field is the instance field of the annotation
+     * @param column is
+     * @return
+     */
+    private static String getColumnDefinition(Column column) {
+
+        // in the order they are needed in a SQL statement
+        return column.name() + " " + column.type()
+                + (column.primaryKey() ? " PRIMARY KEY" : "")
+                + (column.unique() ? " UNIQUE" : "")
+                + (!column.nullable() ? " NOT NULL" : "")
+                + (!column.defaultValue().isEmpty() ? " DEFAULT "
+                + column.defaultValue() : "");
     }
 }
