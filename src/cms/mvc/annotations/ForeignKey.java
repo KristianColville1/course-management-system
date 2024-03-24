@@ -10,14 +10,15 @@ import java.lang.annotation.*;
  *
  * @author kristian
  *
- * Custom annotation for model table
+ * Custom annotation for defining foreign key on table columns
  */
-
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Table {
+@Target(ElementType.FIELD)
+public @interface ForeignKey {
 
-    String name(); // table name
+    String columnName(); // column for the foreign key
 
-    UniqueConstraint[] uniqueConstraints() default {}; // incase needed
+    String foreignTableName(); // the table
+
+    String foreignColumnName(); // column name for the foreign key
 }

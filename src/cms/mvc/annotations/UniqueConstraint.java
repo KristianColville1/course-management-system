@@ -5,13 +5,16 @@
 package cms.mvc.annotations;
 
 import java.lang.annotation.*;
+
 /**
  *
  * @author kristian
- * 
+ *
  * Custom annotation for unique constraints on the models
  */
 public @interface UniqueConstraint {
+
     String name() default "";
+
     String[] columnNames(); // the constraints
 }
