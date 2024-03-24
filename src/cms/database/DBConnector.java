@@ -4,12 +4,12 @@
  */
 package cms.database;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  *
@@ -22,39 +22,35 @@ import javax.sql.DataSource;
  * database operations, ensuring that all interactions with the database are
  * routed through a single connection mechanism.
  */
-
-@Configuration
-@PropertySource("classpath:env.properties")
 public class DBConnector {
 
-    // instance fields
-    @Value("${database.host}")
-    private String dbHost;
+    private static String dbHost;
+    private static String user;
+    private static String password;
 
-    @Value("${database.user}")
-    private String user;
+    // static block to initialize the database connection parameters
+    static {
+        Properties props = new Properties();
+        try (FileInputStream in = new FileInputStream("env.properties")) {
+            props.load(in);
+            dbHost = props.getProperty("database.host");
+            user = props.getProperty("database.user");
+            password = props.getProperty("database.password");
 
-    @Value("${database.password}")
-    private String password;
+            // load the MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace(); // handle the exception appropriately
+        }
+    }
 
     /**
-     * Creates a DataSource bean that manages the database connection.
+     * Gets a connection to the database using the connection parameters.
      *
-     * Uses the properties from the env.properties file.
-     *
-     * The DataSource is a factory for connections to the physical data source
-     * that this class represents. The created DataSource will pool the
-     * connections and reuse them.
-     *
-     * @return a configured DataSource object ready for use.
+     * @return a Connection object
+     * @throws SQLException if a database access error occurs
      */
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(dbHost);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        return dataSource;
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(dbHost, user, password);
     }
 }
