@@ -30,5 +30,33 @@ public class AccessControlManager {
      */
     public AccessControlManager() {
         accessControlMap = new HashMap<>(); // set it up here
+        setupAccessControl();
+    }
+
+    /**
+     * Configures the default permissions for each user role.
+     * 
+     * Called during initialising the AccessControlManger.
+     */
+    private void setupAccessControl() {
+
+        // the administrator has all of the essentials
+        accessControlMap.put(
+                UserRole.ADMIN, EnumSet.of(
+                        Permission.READ,
+                        Permission.WRITE,
+                        Permission.DELETE));
+
+        // the office worker has some permissions and can generate reports
+        accessControlMap.put(
+                UserRole.OFFICE, EnumSet.of(
+                        Permission.READ,
+                        Permission.GENERATE_REPORTS));
+
+        // the lecturer worker has some permissions and can generate reports
+        accessControlMap.put(
+                UserRole.LECTURER, EnumSet.of(
+                        Permission.READ,
+                        Permission.GENERATE_REPORTS));
     }
 }
