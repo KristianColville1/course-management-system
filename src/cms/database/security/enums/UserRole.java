@@ -7,7 +7,10 @@ package cms.database.security.enums;
 /**
  *
  * @author kristian
+ * 
+ * Defines the user roles available in the system. These roles are used to grant
+ * different levels of access and permissions to users.
  */
-public class UserRole {
-    
+public enum UserRole {
+    ADMIN, OFFICE, LECTURER
 }
