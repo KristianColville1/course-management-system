@@ -199,4 +199,20 @@ public class User extends BaseModel {
         this.passwordHash = PasswordHasher.hashPassword(
                 rawPassword, this.salt); // hash the password
     }
+
+    /**
+     * -------------------------------------------------Helper Methods
+     */
+    /**
+     * Verifies whether a password in plain text matches the user's stored
+     * hashed password.
+     *
+     * @param rawPassword is the password to verify
+     * @return true if the password is correct otherwise return false
+     */
+    public boolean verifyPassword(String rawPassword) {
+        String hashedPassword = PasswordHasher.hashPassword(
+                rawPassword, this.salt);
+        return hashedPassword.equals(this.passwordHash); // if equal
+    }
 }
