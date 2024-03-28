@@ -12,7 +12,6 @@ import java.lang.annotation.*;
  *
  * Custom annotation for model columns in tables
  */
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Column {
@@ -30,4 +29,6 @@ public @interface Column {
     String defaultValue() default ""; // default if needed
 
     boolean unique() default false; // if unique
+
+    boolean autoIncrement() default false; // if needs to be auto incremented
 }

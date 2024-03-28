@@ -83,19 +83,19 @@ public abstract class BaseModel {
      *
      * Sets it up as typical SQL statement for a column.
      *
-     * @param field is the instance field of the annotation
-     * @param column is
+     * @param column is the annotation for the column schema
      * @return
      */
     private static String getColumnDefinition(Column column) {
 
         // in the order they are needed in a SQL statement
-        return column.name() + " " + column.type()
+        String columnDef = column.name() + " " + column.type()
                 + (column.primaryKey() ? " PRIMARY KEY" : "")
+                + (column.nullable() ? "" : " NOT NULL")
                 + (column.unique() ? " UNIQUE" : "")
-                + (!column.nullable() ? " NOT NULL" : "")
-                + (!column.defaultValue().isEmpty() ? " DEFAULT "
-                + column.defaultValue() : "");
+                + (column.defaultValue().isEmpty() ? "" : " DEFAULT '" + column.defaultValue() + "'")
+                + (column.autoIncrement() ? " AUTO_INCREMENT" : "");
+        return columnDef;
     }
 
     /**

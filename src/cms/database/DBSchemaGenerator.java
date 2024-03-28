@@ -33,7 +33,6 @@ public class DBSchemaGenerator {
 
         for (Class<?> clazz : modelClasses) {
             String createTableSQL = BaseModel.generateCreateTableStatement(clazz, dbName);
-            System.out.println("Executing SQL: " + createTableSQL);
             try (Statement stmt = connection.createStatement()) {
                 stmt.execute(createTableSQL);
             } catch (SQLException e) {
