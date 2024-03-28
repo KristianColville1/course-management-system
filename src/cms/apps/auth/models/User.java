@@ -89,56 +89,73 @@ public class User extends BaseModel {
 //        this.setNewPassword(rawPassword); // Securely sets the password
         this.role = role;
     }
-    
+
     /**
      * -------------------------------------------------Getter Methods
      */
-
     /**
      * Getter for returning the user ID
+     *
      * @return the user ID
      */
-    public int getUserId(){
+    public int getUserId() {
         return userId;
     }
-    
+
     /**
      * Getter for returning the user's username
+     *
      * @return the username
      */
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
-    
+
     /**
      * Getter for returning the user's first name
+     *
      * @return the users first name
      */
-    public String getFirstName(){
+    public String getFirstName() {
         return firstName;
     }
-    
+
     /**
      * Getter for returning the user's last name
+     *
      * @return the users last name
      */
-    public String getLastName(){
+    public String getLastName() {
         return lastName;
     }
-    
+
     /**
      * Getter for returning the users hashed password
+     *
      * @return the users hashed password
      */
-    public String getPasswordHash(){
+    public String getPasswordHash() {
         return passwordHash;
     }
-    
+
     /**
      * Getter for returning the users salt value
+     *
      * @return the users salt used to create the hashed password
      */
-    public String getSalt(){
+    public String getSalt() {
         return salt;
+    }
+
+    /**
+     * -------------------------------------------------Setter Methods
+     */
+    
+    /**
+     * Setter method for attaching the user id to the user object
+     * @param userId is the ID for this object in database
+     */
+    public void setUserId(int userId){
+        this.userId = userId;
     }
 }
