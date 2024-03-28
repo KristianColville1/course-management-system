@@ -150,28 +150,39 @@ public class User extends BaseModel {
     /**
      * -------------------------------------------------Setter Methods
      */
-    
     /**
      * Setter method for attaching the user id to the user object
+     *
      * @param userId is the ID for this object in database
      */
-    public void setUserId(int userId){
+    public void setUserId(int userId) {
         this.userId = userId;
     }
-    
+
     /**
      * Setter method for attaching the user username to the user object
+     *
      * @param username is the username of the user for the object
      */
-    public void setUsername(String username){
+    public void setUsername(String username) {
         this.username = username;
     }
-    
+
     /**
      * Setter method for attaching the user first name to the user object
+     *
      * @param firstName is the first name of the user
      */
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    /**
+     * Setter method for attaching the user last name to the user object
+     *
+     * @param lastName is the last name of the user
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
