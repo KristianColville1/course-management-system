@@ -134,5 +134,11 @@ public class User extends BaseModel {
         return passwordHash;
     }
     
-    
+    /**
+     * Getter for returning the users salt value
+     * @return the users salt used to create the hashed password
+     */
+    public String getSalt(){
+        return salt;
+    }
 }
