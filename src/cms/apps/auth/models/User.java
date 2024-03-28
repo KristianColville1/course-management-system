@@ -5,7 +5,6 @@
 package cms.apps.auth.models;
 
 import cms.database.security.PasswordHasher;
-import cms.database.security.SaltGenerator;
 import cms.mvc.annotations.Model;
 import cms.mvc.annotations.Table;
 import cms.mvc.annotations.Column;
@@ -17,7 +16,7 @@ import cms.mvc.models.BaseModel;
  */
 @Model
 @Table(name = "users")
-public class User extends BaseModel {
+public final class User extends BaseModel {
 
     // instances
     /**
@@ -81,14 +80,22 @@ public class User extends BaseModel {
      * @param username of the user
      * @param firstName of the user
      * @param lastName of the user
+     * @param salt is the salt belonging to this user object
      * @param rawPassword is the password to use for hashing and salting
      * @param role is the defined role as part of the access control in the app
      */
-    public User(String username, String firstName, String lastName, String rawPassword, String role) {
+    public User(
+            String username,
+            String firstName,
+            String lastName,
+            String Salt,
+            String rawPassword,
+            String role) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-//        this.setNewPassword(rawPassword); // Securely sets the password
+        this.salt = salt;
+        this.setNewPassword(rawPassword); // Securely sets the password
         this.role = role;
     }
 
@@ -198,13 +205,19 @@ public class User extends BaseModel {
     }
 
     /**
+     * Setter method for attaching the user salt to the user object
+     * @param salt is the salt that should belong to the user
+     */
+    public void setSalt(String salt){
+        this.salt = salt;
+    }
+    /**
      * Setter method securely sets a new password for the user, generating a new
      * salt and hashing the password.
      *
      * @param rawPassword the plain text password to set.
      */
     public void setNewPassword(String rawPassword) {
-        this.salt = SaltGenerator.generateSalt(); // generate a new salt
         this.passwordHash = PasswordHasher.hashPassword(
                 rawPassword, this.salt); // hash the password
     }
