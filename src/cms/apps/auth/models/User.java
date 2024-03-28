@@ -117,4 +117,12 @@ public class User extends BaseModel {
     public String getFirstName(){
         return firstName;
     }
+    
+    /**
+     * Getter for returning the user's last name
+     * @return the users last name
+     */
+    public String getLastName(){
+        return lastName;
+    }
 }
