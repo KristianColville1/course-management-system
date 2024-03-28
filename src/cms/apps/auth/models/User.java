@@ -101,4 +101,12 @@ public class User extends BaseModel {
     public int getUserId(){
         return userId;
     }
+    
+    /**
+     * Getter for returning the user's username
+     * @return 
+     */
+    public String getUsername(){
+        return username;
+    }
 }
