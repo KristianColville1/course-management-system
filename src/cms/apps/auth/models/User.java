@@ -15,7 +15,7 @@ import cms.mvc.models.BaseModel;
  */
 @Model
 @Table(name = "users")
-public class User extends BaseModel{
+public class User extends BaseModel {
 
     // instances
     /**
@@ -27,7 +27,11 @@ public class User extends BaseModel{
     /**
      * The username of a user
      */
-    @Column(name = "username", type = "VARCHAR(50)", nullable = false, unique = true)
+    @Column(
+            name = "username",
+            type = "VARCHAR(50)",
+            nullable = false,
+            unique = true)
     private String username;
 
     /**
@@ -59,5 +63,35 @@ public class User extends BaseModel{
      */
     @Column(name = "role", type = "VARCHAR(20)", nullable = false)
     private String role;
+
+    /**
+     * -------------------------------------------------Constructors
+     */
+    /**
+     * Default Constructor needed for ORM and DAO operations
+     */
+    public User() {
+    }
+
+    /**
+     * Constructor for User for creating user objects.
+     *
+     * @param username of the user
+     * @param firstName of the user
+     * @param lastName of the user
+     * @param rawPassword is the password to use for hashing and salting
+     * @param role is the defined role as part of the access control in the app
+     */
+    public User(String username, String firstName, String lastName, String rawPassword, String role) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+//        this.setNewPassword(rawPassword); // Securely sets the password
+        this.role = role;
+    }
+    
+    /**
+     * -------------------------------------------------Getter & Setter Methods
+     */
 
 }
