@@ -4,6 +4,8 @@
  */
 package cms.apps.auth.models;
 
+import cms.database.security.PasswordHasher;
+import cms.database.security.SaltGenerator;
 import cms.mvc.annotations.Model;
 import cms.mvc.annotations.Table;
 import cms.mvc.annotations.Column;
@@ -184,5 +186,17 @@ public class User extends BaseModel {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    /**
+     * Setter method securely sets a new password for the user, generating a new
+     * salt and hashing the password.
+     *
+     * @param rawPassword the plain text password to set.
+     */
+    public void setNewPassword(String rawPassword) {
+        this.salt = SaltGenerator.generateSalt(); // generate a new salt
+        this.passwordHash = PasswordHasher.hashPassword(
+                rawPassword, this.salt); // hash the password
     }
 }
