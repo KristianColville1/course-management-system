@@ -150,6 +150,15 @@ public class User extends BaseModel {
     }
 
     /**
+     * Getter for returning the users role
+     *
+     * @return the user role
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
      * -------------------------------------------------Setter Methods
      */
     /**
@@ -198,6 +207,15 @@ public class User extends BaseModel {
         this.salt = SaltGenerator.generateSalt(); // generate a new salt
         this.passwordHash = PasswordHasher.hashPassword(
                 rawPassword, this.salt); // hash the password
+    }
+
+    /**
+     * Setter method for adding the users role to the object
+     *
+     * @param role to set
+     */
+    public void setRole(String role) {
+        this.role = role;
     }
 
     /**
