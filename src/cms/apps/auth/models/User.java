@@ -91,7 +91,14 @@ public class User extends BaseModel {
     }
     
     /**
-     * -------------------------------------------------Getter & Setter Methods
+     * -------------------------------------------------Getter Methods
      */
 
+    /**
+     * Getter for returning the user ID
+     * @return 
+     */
+    public int getUserId(){
+        return userId;
+    }
 }
