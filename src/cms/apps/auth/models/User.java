@@ -96,7 +96,7 @@ public class User extends BaseModel {
 
     /**
      * Getter for returning the user ID
-     * @return 
+     * @return the user ID
      */
     public int getUserId(){
         return userId;
@@ -104,9 +104,17 @@ public class User extends BaseModel {
     
     /**
      * Getter for returning the user's username
-     * @return 
+     * @return the username
      */
     public String getUsername(){
         return username;
+    }
+    
+    /**
+     * Getter for returning the user's first name
+     * @return the users first name
+     */
+    public String getFirstName(){
+        return firstName;
     }
 }
