@@ -206,11 +206,23 @@ public final class User extends BaseModel {
 
     /**
      * Setter method for attaching the user salt to the user object
+     *
      * @param salt is the salt that should belong to the user
      */
-    public void setSalt(String salt){
+    public void setSalt(String salt) {
         this.salt = salt;
     }
+
+    /**
+     * Setter method for attaching a hashed password to a user object
+     *
+     * @param hashedPassword is the hashed password that should belong to the
+     * user
+     */
+    public void setHashedPassword(String hashedPassword) {
+        this.passwordHash = hashedPassword;
+    }
+
     /**
      * Setter method securely sets a new password for the user, generating a new
      * salt and hashing the password.
