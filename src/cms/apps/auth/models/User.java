@@ -125,4 +125,14 @@ public class User extends BaseModel {
     public String getLastName(){
         return lastName;
     }
+    
+    /**
+     * Getter for returning the users hashed password
+     * @return the users hashed password
+     */
+    public String getPasswordHash(){
+        return passwordHash;
+    }
+    
+    
 }
