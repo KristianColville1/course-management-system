@@ -51,16 +51,24 @@ public class AuthenticationMiddleware implements IMiddleware {
                 request.setUserId(userId);
                 return true; // token is valid
             } catch (Exception e) {
-                redirectHome(response, "Invalid token. Please log in.");
+                redirectHome(request, "Invalid token. Please log in.");
                 return false; // token is invalid
             }
         } else {
-            redirectHome(response, "You need to login to continue");
+            redirectHome(request, "You need to login to continue");
         }
         return false;
     }
 
-    public void redirectHome(IHttpResponse response, String message) {
-
+    /**
+     * Routes user back to the home controller logic
+     *
+     * @param request is the original request for extracting details
+     * @param message is the message to display for reason going home
+     */
+    private void redirectHome(IHttpRequest request, String message) {
+        System.out.println(message);
+        InternalRequestHandler.sendRequest(
+                request, homeRoute, "GET");
     }
 }
