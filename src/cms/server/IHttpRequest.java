@@ -77,4 +77,11 @@ public interface IHttpRequest {
      */
     String getScheme();
 
+    /**
+     * Should return the host name or IP address
+     *
+     * @return localhost, 127.0.0.1 etc
+     */
+    String getServerName();
+
 }
