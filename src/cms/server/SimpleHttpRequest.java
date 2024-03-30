@@ -159,5 +159,13 @@ public class SimpleHttpRequest implements IHttpRequest {
     public String getRequestURI() {
         return this.path;
     }
+    /**
+     * Gets the request URL by building it from the scheme, host + port & path
+     * @return request URL
+     */
+    @Override
+    public String getRequestURL() {
+        return this.scheme + "://" + this.serverName + ":" + this.serverPort + this.path;
+    }
 
 }
