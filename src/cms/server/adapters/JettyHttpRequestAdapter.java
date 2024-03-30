@@ -22,6 +22,7 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
 
     // instance fields
     private final HttpServletRequest originalRequest;
+    private Integer userId;
 
     /**
      * JettyHttpRequestAdapter Constructor with the original request
@@ -89,5 +90,25 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     @Override
     public Map<String, String[]> getParameters() {
         return originalRequest.getParameterMap();
+    }
+
+    /**
+     * Sets the user ID of the person making the request
+     *
+     * @param userId to set
+     */
+    @Override
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * Gets the user ID of the person making the request
+     *
+     * @return the user ID
+     */
+    @Override
+    public Integer getUserId() {
+        return userId;
     }
 }
