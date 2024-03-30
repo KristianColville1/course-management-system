@@ -177,4 +177,11 @@ public class SimpleHttpRequest implements IHttpRequest {
         headers.put(name, value);
     }
 
+    /**
+     * Adds parameters to the request
+     * @param parameters 
+     */
+    public void setParameters(Map<String, String[]> parameters) {
+        this.parameters = parameters;
+    }
 }
