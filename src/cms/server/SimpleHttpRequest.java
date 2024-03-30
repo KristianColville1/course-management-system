@@ -109,4 +109,13 @@ public class SimpleHttpRequest implements IHttpRequest {
         this.userId = userId;
     }
 
+    /**
+     * Gets the user ID in the request
+     * @return the user ID
+     */
+    @Override
+    public Integer getUserId() {
+        return this.userId;
+    }
+
 }
