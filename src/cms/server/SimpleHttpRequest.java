@@ -136,4 +136,13 @@ public class SimpleHttpRequest implements IHttpRequest {
         return this.serverName;
     }
 
+    /**
+     * Gets the server port
+     * @return the port number used for the server
+     */
+    @Override
+    public int getServerPort() {
+        return this.serverPort;
+    }
+
 }
