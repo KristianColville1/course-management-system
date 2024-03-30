@@ -14,9 +14,32 @@ package cms.server;
 public class SimpleHttpRequest implements IHttpRequest {
 
     // instance fields to store request details
-    private String scheme;
-    private String serverName;
-    private int serverPort;
-    private String method;
-    private String path;
+    private final String scheme;
+    private final String serverName;
+    private final int serverPort;
+    private final String method;
+    private final String path;
+
+    /**
+     * Constructor for SimpleHttpRequest sets up the request object with the
+     * values for a request object.
+     *
+     * @param scheme is the protocol used in the request
+     * @param serverName is the host or IP address
+     * @param serverPort is the port the request is on
+     * @param method is the type of request
+     * @param path of the request
+     */
+    public SimpleHttpRequest(
+            String scheme,
+            String serverName,
+            int serverPort,
+            String method,
+            String path) {
+        this.scheme = scheme;
+        this.serverName = serverName;
+        this.serverPort = serverPort;
+        this.method = method;
+        this.path = path;
+    }
 }
