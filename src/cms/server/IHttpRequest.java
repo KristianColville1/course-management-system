@@ -97,4 +97,11 @@ public interface IHttpRequest {
      * @return the request URI
      */
     String getRequestURI();
+
+    /**
+     * Should return the full URL of the request
+     *
+     * @return the request URL in full
+     */
+    String getRequestURL();
 }
