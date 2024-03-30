@@ -84,4 +84,10 @@ public interface IHttpRequest {
      */
     String getServerName();
 
+    /**
+     * Should return the port number used in the request
+     *
+     * @return port number
+     */
+    int getServerPort();
 }
