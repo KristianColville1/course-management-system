@@ -118,4 +118,13 @@ public class SimpleHttpRequest implements IHttpRequest {
         return this.userId;
     }
 
+    /**
+     * Gets the scheme of the request for the protocol used
+     * @return the protocol scheme
+     */
+    @Override
+    public String getScheme() {
+        return this.scheme;
+    }
+
 }
