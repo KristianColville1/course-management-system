@@ -51,14 +51,17 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Get the request path
+     *
      * @return the request path
      */
     @Override
     public String getPath() {
         return this.path;
     }
+
     /**
      * Get the request method
+     *
      * @return the request method
      */
     @Override
@@ -68,6 +71,7 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Get the a header from the request using the header name
+     *
      * @param name of the header to get
      * @return the header
      */
@@ -78,10 +82,22 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Get all of the headers
+     *
      * @return all of the headers
      */
     @Override
     public Map<String, String> getAllHeaders() {
         return headers;
     }
+
+    /**
+     * Get all the parameters in the request
+     *
+     * @return all of the parameters
+     */
+    @Override
+    public Map<String, String[]> getParameters() {
+        return parameters;
+    }
+
 }
