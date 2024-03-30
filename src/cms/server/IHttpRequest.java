@@ -39,6 +39,14 @@ public interface IHttpRequest {
     String getHeader(String name);
 
     /**
+     * Retrieves all the headers of a request as a map. Each key in the map is
+     * the header name and the value is the header value.
+     *
+     * @return a map of headers and their values.
+     */
+    Map<String, String> getHeaders();
+
+    /**
      * Retrieves all the parameters of a request as a map. Each key in the map
      * is the parameter name and the value is an array of strings which contain
      * all the values for that parameter
