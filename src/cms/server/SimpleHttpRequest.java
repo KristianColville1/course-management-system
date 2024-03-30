@@ -57,5 +57,13 @@ public class SimpleHttpRequest implements IHttpRequest {
     public String getPath() {
         return this.path;
     }
+    /**
+     * Get the request method
+     * @return the request method
+     */
+    @Override
+    public String getMethod() {
+        return this.method;
+    }
 
 }
