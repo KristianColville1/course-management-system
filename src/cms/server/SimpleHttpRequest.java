@@ -100,4 +100,13 @@ public class SimpleHttpRequest implements IHttpRequest {
         return parameters;
     }
 
+    /**
+     * Set the User id of the request
+     * @param userId to set
+     */
+    @Override
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 }
