@@ -168,4 +168,13 @@ public class SimpleHttpRequest implements IHttpRequest {
         return this.scheme + "://" + this.serverName + ":" + this.serverPort + this.path;
     }
 
+    /**
+     * Adds a header to the request
+     * @param name of the header
+     * @param value to attach to the header
+     */
+    public void addHeader(String name, String value) {
+        headers.put(name, value);
+    }
+
 }
