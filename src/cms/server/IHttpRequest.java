@@ -69,4 +69,12 @@ public interface IHttpRequest {
      * @return the user ID of person making request
      */
     Integer getUserId();
+
+    /**
+     * Should return the scheme of the request HTTP, HTTPS etc
+     *
+     * @return scheme of the request
+     */
+    String getScheme();
+
 }
