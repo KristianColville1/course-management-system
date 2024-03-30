@@ -4,6 +4,7 @@
  */
 package cms.server;
 
+import cms.apps.auth.controllers.CreateNewUserController;
 import cms.server.adapters.JettyHttpRequestAdapter;
 import cms.server.adapters.JettyHttpResponseAdapter;
 import cms.server.annotations.Route;
@@ -17,6 +18,11 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 //import cms.home.HomeController;
 
 /**
@@ -87,21 +93,22 @@ public class RequestHandler extends AbstractHandler {
     }
 
     /**
-     * Responsible for collecting the controllers.
-     *
-     * The package main controllers should be added here.
+     * Responsible for collecting the controllers. Uses Reflection library
+     * to scan the cms.apps packages for controller classes which
+     * use the ControllerBase class.
      *
      * @return list of <Class<? extends ControllerBase>> controller classes
      */
-    public ArrayList fetchControllers() {
-        List<Class<? extends ControllerBase>> controllerClasses
-                = new ArrayList<>();
+    public ArrayList<Class<? extends ControllerBase>> fetchControllers() {
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forPackage("cms.apps"))
+                .setScanners(new SubTypesScanner(false)));
 
-        // define controller classes here
-        controllerClasses.add(TestController.class);
-//        controllerClasses.add(HomeController.class);
+        // find all classes extending ControllerBase
+        Set<Class<? extends ControllerBase>> controllerClasses = 
+                reflections.getSubTypesOf(ControllerBase.class);
 
-        return (ArrayList) controllerClasses;
+        return new ArrayList<>(controllerClasses);
     }
 
     /**
