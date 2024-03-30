@@ -44,7 +44,7 @@ public interface IHttpRequest {
      *
      * @return a map of headers and their values.
      */
-    Map<String, String> getHeaders();
+    Map<String, String> getAllHeaders();
 
     /**
      * Retrieves all the parameters of a request as a map. Each key in the map

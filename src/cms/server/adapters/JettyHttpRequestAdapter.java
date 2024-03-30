@@ -5,6 +5,8 @@
 package cms.server.adapters;
 
 import cms.server.IHttpRequest;
+import java.util.Enumeration;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -59,6 +61,24 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     @Override
     public String getHeader(String name) {
         return originalRequest.getHeader(name);
+    }
+
+    /**
+     * Retrieves all the header of a request as a map. Each key in the map is
+     * the header name and the value is the header value.
+     *
+     * @return a map of headers and their values
+     */
+    @Override
+    public Map<String, String> getAllHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        Enumeration<String> headerNames = originalRequest.getHeaderNames();
+        // extract a map of the headers
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            headers.put(headerName, originalRequest.getHeader(headerName));
+        }
+        return headers;
     }
 
     /**
