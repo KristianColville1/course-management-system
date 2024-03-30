@@ -127,4 +127,13 @@ public class SimpleHttpRequest implements IHttpRequest {
         return this.scheme;
     }
 
+    /**
+     * Gets the server name which is the host / IP address
+     * @return the server name
+     */
+    @Override
+    public String getServerName() {
+        return this.serverName;
+    }
+
 }
