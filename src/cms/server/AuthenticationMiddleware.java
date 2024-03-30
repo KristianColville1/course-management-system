@@ -31,9 +31,36 @@ public class AuthenticationMiddleware implements IMiddleware {
         this.homeRoute = homeRoute;
     }
 
+    /**
+     * Processes the request and returns true or false if the token is valid.
+     * Routes the user home with the redirectHome method.
+     *
+     * @param request is the IHttpRequest object
+     * @param response is the IHttpResponse object
+     * @return true or false for token validation
+     * @throws IOException if exception occurs
+     */
     @Override
     public boolean process(IHttpRequest request, IHttpResponse response) throws IOException {
+        String authHeader = request.getHeader("Authorization"); // the auth
+
+        // when the header is attached
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            try {
+                int userId = TokenService.extractUserIdFromBearerToken(authHeader);
+                request.setUserId(userId);
+                return true; // token is valid
+            } catch (Exception e) {
+                redirectHome(response, "Invalid token. Please log in.");
+                return false; // token is invalid
+            }
+        } else {
+            redirectHome(response, "You need to login to continue");
+        }
         return false;
     }
 
+    public void redirectHome(IHttpResponse response, String message) {
+
+    }
 }
