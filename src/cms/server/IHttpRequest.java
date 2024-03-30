@@ -54,4 +54,19 @@ public interface IHttpRequest {
      * @return a map of parameters and their values
      */
     Map<String, String[]> getParameters();
+
+    /**
+     * Should set the user ID for the person making the request when they pass
+     * through the auth middle ware functionality.
+     *
+     * @param userId to set
+     */
+    void setUserId(int userId);
+
+    /**
+     * Should retrieve the user ID for the person making the request
+     *
+     * @return the user ID of person making request
+     */
+    Integer getUserId();
 }
