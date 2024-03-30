@@ -141,4 +141,13 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public int getServerPort() {
         return originalRequest.getServerPort();
     }
+    
+    /**
+     * Gets the request URI from the request made 
+     * @return the request URI
+     */
+    @Override
+    public String getRequestURI(){
+        return originalRequest.getRequestURI();
+    }
 }
