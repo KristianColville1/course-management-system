@@ -121,13 +121,24 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public String getScheme() {
         return originalRequest.getScheme();
     }
-    
+
     /**
      * Gets the host or IP address that the request was made from
+     *
      * @return the host or IP address
      */
     @Override
-    public String getServerName(){
+    public String getServerName() {
         return originalRequest.getServerName();
+    }
+
+    /**
+     * Gets the servers port number from the request that was made
+     *
+     * @return the server port number from the request
+     */
+    @Override
+    public int getServerPort() {
+        return originalRequest.getServerPort();
     }
 }
