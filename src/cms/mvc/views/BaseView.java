@@ -20,7 +20,7 @@ public abstract class BaseView implements IView {
      * Implementation for the IView, child classes will use this on render to
      * perform the logic views should carry out in a structured and predictable
      * way.
-     * 
+     *
      * When called in child classes it will automatically call methods required
      * in the order they are needed.
      *
@@ -29,7 +29,32 @@ public abstract class BaseView implements IView {
      */
     @Override
     public void render(IHttpRequest request, IHttpResponse response) {
-
+        renderContent(request, response);
+        renderOptions(request, response);
+        processInput(request, response);
     }
 
+    /**
+     * Render the content
+     *
+     * @param request is the IHttpRequest object
+     * @param response is the IHttpResponse object
+     */
+    protected abstract void renderContent(IHttpRequest request, IHttpResponse response);
+
+    /**
+     * Render the options to the user
+     *
+     * @param request is the IHttpRequest object
+     * @param response is the IHttpResponse object
+     */
+    protected abstract void renderOptions(IHttpRequest request, IHttpResponse response);
+
+    /**
+     * Process input by the user
+     *
+     * @param request is the IHttpRequest object
+     * @param response is the IHttpResponse object
+     */
+    protected abstract void processInput(IHttpRequest request, IHttpResponse response);
 }
