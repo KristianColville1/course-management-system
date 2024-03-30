@@ -22,7 +22,7 @@ public final class User extends BaseModel {
     /**
      * Primary key in the user database table
      */
-    @Column(name = "user_id", type = "INT", primaryKey = true, nullable = false)
+    @Column(name = "user_id", type = "INT", primaryKey = true, nullable = false, autoIncrement = true)
     private int userId;
 
     /**
@@ -56,7 +56,7 @@ public final class User extends BaseModel {
     /**
      * The users salt - each user gets their own
      */
-    @Column(name = "salt", type = "CHAR(16)", nullable = false)
+    @Column(name = "salt", type = "VARCHAR(32)", nullable = false)
     private String salt;
 
     /**
@@ -88,7 +88,7 @@ public final class User extends BaseModel {
             String username,
             String firstName,
             String lastName,
-            String Salt,
+            String salt,
             String rawPassword,
             String role) {
         this.username = username;
