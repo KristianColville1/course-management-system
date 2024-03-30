@@ -90,4 +90,11 @@ public interface IHttpRequest {
      * @return port number
      */
     int getServerPort();
+
+    /**
+     * Should return the content after the host and port, URI only
+     *
+     * @return the request URI
+     */
+    String getRequestURI();
 }
