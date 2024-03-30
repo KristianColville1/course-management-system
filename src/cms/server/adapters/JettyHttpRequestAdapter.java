@@ -150,4 +150,14 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public String getRequestURI(){
         return originalRequest.getRequestURI();
     }
+    
+    /**
+     * Gets the request URL of the request made
+     * @return the request URL
+     */
+    @Override
+    public String getRequestURL(){
+        // converts the StringBuffer to a string
+        return originalRequest.getRequestURL().toString();
+    }
 }
