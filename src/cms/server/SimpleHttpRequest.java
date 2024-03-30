@@ -66,4 +66,14 @@ public class SimpleHttpRequest implements IHttpRequest {
         return this.method;
     }
 
+    /**
+     * Get the a header from the request using the header name
+     * @param name of the header to get
+     * @return the header
+     */
+    @Override
+    public String getHeader(String name) {
+        return headers.get(name);
+    }
+
 }
