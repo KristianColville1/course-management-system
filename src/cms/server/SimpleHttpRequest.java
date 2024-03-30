@@ -76,4 +76,12 @@ public class SimpleHttpRequest implements IHttpRequest {
         return headers.get(name);
     }
 
+    /**
+     * Get all of the headers
+     * @return all of the headers
+     */
+    @Override
+    public Map<String, String> getAllHeaders() {
+        return headers;
+    }
 }
