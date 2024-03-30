@@ -102,6 +102,7 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Set the User id of the request
+     *
      * @param userId to set
      */
     @Override
@@ -111,6 +112,7 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Gets the user ID in the request
+     *
      * @return the user ID
      */
     @Override
@@ -120,6 +122,7 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Gets the scheme of the request for the protocol used
+     *
      * @return the protocol scheme
      */
     @Override
@@ -129,6 +132,7 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Gets the server name which is the host / IP address
+     *
      * @return the server name
      */
     @Override
@@ -138,11 +142,22 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Gets the server port
+     *
      * @return the port number used for the server
      */
     @Override
     public int getServerPort() {
         return this.serverPort;
+    }
+
+    /**
+     * Gets the request URI
+     *
+     * @return request URI as path
+     */
+    @Override
+    public String getRequestURI() {
+        return this.path;
     }
 
 }
