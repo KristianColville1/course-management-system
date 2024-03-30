@@ -4,6 +4,9 @@
  */
 package cms.server;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author kristian
@@ -19,6 +22,9 @@ public class SimpleHttpRequest implements IHttpRequest {
     private final int serverPort;
     private final String method;
     private final String path;
+    private final Map<String, String> headers = new HashMap<>();
+    private Map<String, String[]> parameters;
+    private Integer userId;
 
     /**
      * Constructor for SimpleHttpRequest sets up the request object with the
@@ -42,4 +48,14 @@ public class SimpleHttpRequest implements IHttpRequest {
         this.method = method;
         this.path = path;
     }
+
+    /**
+     * Get the request path
+     * @return the request path
+     */
+    @Override
+    public String getPath() {
+        return this.path;
+    }
+
 }
