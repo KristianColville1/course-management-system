@@ -111,4 +111,14 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public Integer getUserId() {
         return userId;
     }
+
+    /**
+     * Gets the protocol used in the request
+     *
+     * @return the scheme
+     */
+    @Override
+    public String getScheme() {
+        return originalRequest.getScheme();
+    }
 }
