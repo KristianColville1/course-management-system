@@ -67,4 +67,11 @@ public class ServerInitialiser {
             }
         }
     }
+
+    /**
+     * Gets the real port number
+     */
+    public int getRealPortNumber() {
+        return server.getConnectors()[0].getLocalPort();
+    }
 }
