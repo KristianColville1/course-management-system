@@ -17,6 +17,9 @@ public class Terminal {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_MAGENTA = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
 
     /**
      * Clear the console
@@ -47,22 +50,27 @@ public class Terminal {
     /**
      * Outputs some header dashes to the the terminal
      */
-    public static void addDashHeader() {
+    public static String addDashHeader() {
         String dashes = "";
         for (int str = 0; str < 22; str++) {
             dashes += ">-<";
         }
-        System.out.println(dashes);
+        return dashes;
     }
 
     /**
-     * Modifies the string used in an output to terminal and changes the color
-     * to red
+     * Dynamically modifies the string used in an output to the terminal by
+     * changing its color.
      *
-     * @param message
-     * @return
+     * @param message the message to modify
+     * @param colorCode the ANSI color code to apply to the message
+     * @return the colored message string
      */
-    public static String textDanger(String message) {
-        return ANSI_RED + message + ANSI_RESET;
+    public static String colorText(String message, String colorCode) {
+        return colorCode + message + ANSI_RESET;
+    }
+    
+    public static void printColorText(String message, String colorCode){
+        System.out.println(colorCode + message + ANSI_RESET);
     }
 }
