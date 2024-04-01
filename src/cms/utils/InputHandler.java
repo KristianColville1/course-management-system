@@ -23,6 +23,7 @@ public class InputHandler {
     public InputHandler() {
         this.scanner = new Scanner(System.in);
     }
+
     /**
      * Prompts the user for integer input and returns the input as an integer.
      * Re-prompts the user until a valid integer is entered.

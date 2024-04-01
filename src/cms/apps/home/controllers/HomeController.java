@@ -28,6 +28,7 @@ public class HomeController extends ControllerBase {
     @Route(path = "/", method = "GET")
     public void handleRequest(IHttpRequest request, IHttpResponse response) {
         IView view = new HomeView(request, response);
+        view.render();
     }
 
 }

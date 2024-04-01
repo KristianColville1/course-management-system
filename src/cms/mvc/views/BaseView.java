@@ -6,12 +6,14 @@ package cms.mvc.views;
 
 import cms.server.IHttpRequest;
 import cms.server.IHttpResponse;
+import cms.utils.InputHandler;
+import cms.utils.Terminal;
+import com.github.lalyos.jfiglet.FigletFont;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  *
@@ -27,7 +29,7 @@ public abstract class BaseView implements IView {
     protected IHttpResponse response;
     protected Map<Integer, List<Map<String, String>>> options;
     protected String errorMessage;
-    protected Scanner userInput;
+    protected InputHandler inputHandler;
 
     /**
      * Default Constructor for all views
@@ -41,10 +43,8 @@ public abstract class BaseView implements IView {
     public BaseView(IHttpRequest request, IHttpResponse response) {
         this.request = request;
         this.response = response;
+        this.inputHandler = new InputHandler();
         errorMessage = null;
-        userInput = new Scanner(System.in);
-        addDefaultOptionsForView();
-        render();
     }
 
     /**
@@ -98,16 +98,32 @@ public abstract class BaseView implements IView {
      */
     @Override
     public void render() {
-        renderContent();
-        buildOptionsMap();
+        Terminal.clearConsole();
+        addDefaultOptionsForView();
+        renderHeaderContent();
         renderOptions();
+        buildOptionsMap();
         processInput();
     }
 
     /**
-     * Abstract method for rendering the content such as headers
+     * Responsible for rendering the header content
      */
-    protected abstract void renderContent();
+    protected void renderHeaderContent() {
+        try {
+            printAppHeader();
+            System.out.println(
+                    FigletFont.convertOneLine("           CMS  "));
+            Terminal.printColorText("                    "
+                    + "© Course Management System 2024",
+                    Terminal.ANSI_YELLOW);
+            printAppHeader();
+            displayErrorMessageOrNewLines();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+    }
 
     /**
      * Abstract method for building the options map
@@ -123,7 +139,18 @@ public abstract class BaseView implements IView {
     /**
      * Abstract method for processing the input received for a particular view
      */
-    protected abstract void processInput();
+    protected void processInput() {
+        try {
+            int input = inputHandler.promptInt("Enter your input: ");
+            routeToNextView(input);
+        } catch (NumberFormatException e) {
+            errorMessage = Terminal.colorText(
+                    "Invalid input. You must enter a number."
+                    + e.getMessage(),
+                    Terminal.ANSI_RED);
+            render(); // re-render the view with the error message
+        }
+    }
 
     /**
      * Displays an error message for feedback to the user or just renders empty
@@ -138,18 +165,20 @@ public abstract class BaseView implements IView {
             System.out.println("\n\n");
         }
     }
-    
+
     /**
      * Abstract method for routing user to the next view
      */
-    protected void routeToNextView(int optionExit, int userInput, int optionMax) throws IllegalArgumentException{
-        int routeNum;
-        if(optionExit == userInput){
-            routeNum = 0;
-        }
-        
-        if(userInput > optionMax){
-            throw new IllegalArgumentException();
-        }
+    protected void routeToNextView(int userInput)
+            throws IllegalArgumentException {
+    }
+
+    /**
+     * Prints the app header
+     */
+    protected void printAppHeader() {
+        System.out.println(
+                Terminal.colorText(Terminal.addDashHeader(),
+                Terminal.ANSI_MAGENTA));;
     }
 }
