@@ -6,7 +6,10 @@ package cms.mvc.views;
 
 import cms.server.IHttpRequest;
 import cms.server.IHttpResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +24,7 @@ public abstract class BaseView implements IView {
     // Base instance fields
     protected IHttpRequest request;
     protected IHttpResponse response;
-    protected Map<Integer, String[]> options;
+    protected Map<Integer, List<Map<String, String>>> options;
 
     /**
      * Default Constructor for all views
@@ -35,7 +38,6 @@ public abstract class BaseView implements IView {
     public BaseView(IHttpRequest request, IHttpResponse response) {
         this.request = request;
         this.response = response;
-        options = new HashMap<>();
         addDefaultOptionsForView();
         render();
     }
@@ -44,7 +46,41 @@ public abstract class BaseView implements IView {
      * Adds the default options for all views
      */
     protected void addDefaultOptionsForView() {
+        // set up options hashmap and the exit view
+        options = new HashMap<>();
+        Map<String, String> detailsMap = new HashMap<>();
+        detailsMap.put("scheme", request.getScheme());
+        detailsMap.put("serverName", request.getServerName());
+        detailsMap.put("serverPort", Integer.toString(request.getServerPort()));
+        detailsMap.put("method", "GET");
+        detailsMap.put("path", "/exit/app");
 
+        // add the default exit view
+        List<Map<String, String>> detailsList = new ArrayList<>();
+        detailsList.add(detailsMap);
+        options.put(0, detailsList);
+    }
+
+    /**
+     * Builds an option data structure for the view
+     *
+     * @param optionNum is the key for map
+     * @param method is the request type
+     * @param path is the path to go to for the option
+     */
+    protected void addOptionForView(int optionNum, String method, String path) {
+        // builds the data structure consistently for the options
+        Map<String, String> detailsMap = new HashMap<>();
+        detailsMap.put("scheme", request.getScheme());
+        detailsMap.put("serverName", request.getServerName());
+        detailsMap.put("serverPort", Integer.toString(request.getServerPort()));
+        detailsMap.put("method", method);
+        detailsMap.put("path", path);
+
+        // add the default exit view
+        List<Map<String, String>> detailsList = new ArrayList<>();
+        detailsList.add(detailsMap);
+        options.put(optionNum, detailsList);
     }
 
     /**
