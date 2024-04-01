@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cms.mvc.annotations;
+package cms.database.annotations;
 
 import java.lang.annotation.*;
 
@@ -10,12 +10,14 @@ import java.lang.annotation.*;
  *
  * @author kristian
  *
- * Custom annotation for unique constraints on the models - table level
- * constraint
+ * Custom annotation for model table
  */
-public @interface UniqueConstraint {
 
-    String name() default "";
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Table {
 
-    String[] columnNames(); // the constraints
+    String name(); // table name
+
+    UniqueConstraint[] uniqueConstraints() default {}; // incase needed
 }

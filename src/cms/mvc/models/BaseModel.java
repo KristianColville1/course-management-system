@@ -4,10 +4,10 @@
  */
 package cms.mvc.models;
 
-import cms.mvc.annotations.Table;
-import cms.mvc.annotations.Column;
-import cms.mvc.annotations.ForeignKey;
-import cms.mvc.annotations.CheckConstraint;
+import cms.database.annotations.Table;
+import cms.database.annotations.Column;
+import cms.database.annotations.ForeignKey;
+import cms.database.annotations.CheckConstraint;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@
  */
 package cms.database;
 
-import cms.mvc.annotations.Model;
+import cms.database.annotations.Model;
 import cms.mvc.models.BaseModel;
 import java.sql.Connection;
 import java.sql.SQLException;

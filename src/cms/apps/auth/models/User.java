@@ -5,9 +5,9 @@
 package cms.apps.auth.models;
 
 import cms.database.security.PasswordHasher;
-import cms.mvc.annotations.Model;
-import cms.mvc.annotations.Table;
-import cms.mvc.annotations.Column;
+import cms.database.annotations.Model;
+import cms.database.annotations.Table;
+import cms.database.annotations.Column;
 import cms.mvc.models.BaseModel;
 
 /**

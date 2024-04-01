@@ -2,19 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cms.mvc.annotations;
+package cms.database.annotations;
 
 import java.lang.annotation.*;
-
 /**
  *
  * @author kristian
- *
- * Custom annotation for table models - used to identify tables in their
- * packages and build them if they don't exist in the database.
+ * 
+ * Custom annotation for check constraints in SQL statement columns.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Model {
-
+public @interface CheckConstraint {
+    String name() default "";
+    String condition(); 
 }
