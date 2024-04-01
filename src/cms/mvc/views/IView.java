@@ -18,5 +18,5 @@ public interface IView {
     /**
      * Should render a view and perform its own logic on the request & response
      */
-    void render(IHttpRequest request, IHttpResponse response);
+    void render();
 }

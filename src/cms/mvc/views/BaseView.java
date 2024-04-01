@@ -6,6 +6,8 @@ package cms.mvc.views;
 
 import cms.server.IHttpRequest;
 import cms.server.IHttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -16,6 +18,35 @@ import cms.server.IHttpResponse;
  */
 public abstract class BaseView implements IView {
 
+    // Base instance fields
+    protected IHttpRequest request;
+    protected IHttpResponse response;
+    protected Map<Integer, String[]> options;
+
+    /**
+     * Default Constructor for all views
+     *
+     * Using dependency injection sets the request and response for the view.
+     * Sets up the options map
+     *
+     * @param request is the IHttpRequest object
+     * @param response is the IHttpResponse object
+     */
+    public BaseView(IHttpRequest request, IHttpResponse response) {
+        this.request = request;
+        this.response = response;
+        options = new HashMap<>();
+        addDefaultOptionsForView();
+        render();
+    }
+
+    /**
+     * Adds the default options for all views
+     */
+    protected void addDefaultOptionsForView() {
+
+    }
+
     /**
      * Implementation for the IView, child classes will use this on render to
      * perform the logic views should carry out in a structured and predictable
@@ -23,38 +54,27 @@ public abstract class BaseView implements IView {
      *
      * When called in child classes it will automatically call methods required
      * in the order they are needed.
-     *
-     * @param request is the IHttpRequest object
-     * @param response is the IHttpResponse object
      */
     @Override
-    public void render(IHttpRequest request, IHttpResponse response) {
-        renderContent(request, response);
-        renderOptions(request, response);
-        processInput(request, response);
+    public void render() {
+        renderContent();
+        renderOptions();
+        processInput();
     }
 
     /**
-     * Render the content
-     *
-     * @param request is the IHttpRequest object
-     * @param response is the IHttpResponse object
+     * Abstract method for rendering the content such as headers
      */
-    protected abstract void renderContent(IHttpRequest request, IHttpResponse response);
+    protected abstract void renderContent();
 
     /**
-     * Render the options to the user
+     * Abstract method for rendering the options to the user for selection
      *
-     * @param request is the IHttpRequest object
-     * @param response is the IHttpResponse object
      */
-    protected abstract void renderOptions(IHttpRequest request, IHttpResponse response);
+    protected abstract void renderOptions();
 
     /**
-     * Process input by the user
-     *
-     * @param request is the IHttpRequest object
-     * @param response is the IHttpResponse object
+     * Abstract method for processing the input received for a particular view
      */
-    protected abstract void processInput(IHttpRequest request, IHttpResponse response);
+    protected abstract void processInput();
 }
