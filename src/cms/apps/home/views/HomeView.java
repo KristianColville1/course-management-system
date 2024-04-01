@@ -46,4 +46,31 @@ public class HomeView extends BaseView {
         }
 
     }
+    
+    
+    /**
+     * Renders the options for this view
+     *
+     * @param request
+     * @param response
+     */
+    @Override
+    protected void renderOptions(IHttpRequest request, IHttpResponse response) {
+        System.out.println("          "
+                + "Please enter a number to continue + hit Enter");
+        System.out.println("          (1) Login");
+        System.out.println("          (2) Exit App");
+        System.out.println("\n");
+    }
+
+    /**
+     * Handles the input from the user and is responsible for further routing
+     * through the application
+     *
+     * @param request
+     * @param response
+     */
+    @Override
+    protected void processInput(IHttpRequest request, IHttpResponse response) {
+    }
 }
