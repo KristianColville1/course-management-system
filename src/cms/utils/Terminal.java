@@ -12,6 +12,12 @@ import java.io.IOException;
  */
 public class Terminal {
 
+    // ANSI escape codes for colors
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+
     /**
      * Clear the console
      */
@@ -37,15 +43,26 @@ public class Terminal {
             }
         }
     }
-    
+
     /**
      * Outputs some header dashes to the the terminal
      */
-    public static void addDashHeader(){
+    public static void addDashHeader() {
         String dashes = "";
-        for(int str = 0; str < 22; str++){
-            dashes+=">-<";
+        for (int str = 0; str < 22; str++) {
+            dashes += ">-<";
         }
         System.out.println(dashes);
+    }
+
+    /**
+     * Modifies the string used in an output to terminal and changes the color
+     * to red
+     *
+     * @param message
+     * @return
+     */
+    public static String textDanger(String message) {
+        return ANSI_RED + message + ANSI_RESET;
     }
 }
