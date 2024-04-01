@@ -17,6 +17,7 @@ public class ServerInitialiser {
     // instance fields
     private int port;
     private Server server;
+    private OnReadyListener readyListener;
 
     /**
      * Default Constructor for ServerInitialiser
@@ -34,6 +35,15 @@ public class ServerInitialiser {
     }
 
     /**
+     * Sets the on ready event listener.
+     *
+     * @param listener the listener to be notified when the server is ready.
+     */
+    public void setOnReadyListener(OnReadyListener listener) {
+        this.readyListener = listener;
+    }
+
+    /**
      * Starts the Jetty server.
      *
      * Initializes the server if it has not been already and sets up the handler
@@ -47,6 +57,9 @@ public class ServerInitialiser {
 
         try {
             this.server.start();
+            if (this.readyListener != null) { // alerts us that is ready
+                this.readyListener.onReady();
+            }
             this.server.join();
         } catch (Exception e) {
             System.out.println(new ServerStartException().getMessage());
