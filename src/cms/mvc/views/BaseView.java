@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  *
@@ -25,6 +26,8 @@ public abstract class BaseView implements IView {
     protected IHttpRequest request;
     protected IHttpResponse response;
     protected Map<Integer, List<Map<String, String>>> options;
+    protected String errorMessage;
+    protected Scanner userInput;
 
     /**
      * Default Constructor for all views
@@ -38,6 +41,8 @@ public abstract class BaseView implements IView {
     public BaseView(IHttpRequest request, IHttpResponse response) {
         this.request = request;
         this.response = response;
+        errorMessage = null;
+        userInput = new Scanner(System.in);
         addDefaultOptionsForView();
         render();
     }
@@ -119,4 +124,32 @@ public abstract class BaseView implements IView {
      * Abstract method for processing the input received for a particular view
      */
     protected abstract void processInput();
+
+    /**
+     * Displays an error message for feedback to the user or just renders empty
+     * lines for spacing and formatting of the view
+     */
+    protected void displayErrorMessageOrNewLines() {
+        // display an error if re-rendered on error
+        if (errorMessage != null) {
+            System.out.println(errorMessage);
+            errorMessage = null;
+        } else {
+            System.out.println("\n\n");
+        }
+    }
+    
+    /**
+     * Abstract method for routing user to the next view
+     */
+    protected void routeToNextView(int optionExit, int userInput, int optionMax) throws IllegalArgumentException{
+        int routeNum;
+        if(optionExit == userInput){
+            routeNum = 0;
+        }
+        
+        if(userInput > optionMax){
+            throw new IllegalArgumentException();
+        }
+    }
 }

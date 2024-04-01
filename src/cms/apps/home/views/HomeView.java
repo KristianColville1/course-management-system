@@ -10,6 +10,7 @@ import cms.server.IHttpResponse;
 import cms.utils.Terminal;
 import com.github.lalyos.jfiglet.FigletFont;
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 /**
  *
@@ -46,8 +47,7 @@ public class HomeView extends BaseView {
             System.out.println("            "
                     + "        © Course Management System 2024");
             Terminal.addDashHeader();
-
-            System.out.println("\n\n");
+            displayErrorMessageOrNewLines();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -82,5 +82,19 @@ public class HomeView extends BaseView {
      */
     @Override
     protected void processInput() {
+        try {
+            System.out.println("Enter your input: ");
+            int input = userInput.nextInt();
+            userInput.nextLine();
+            routeToNextView(3, input, 3);
+        } catch (InputMismatchException e) {
+            userInput.nextLine(); // clear the invalid input 
+            errorMessage = Terminal.textDanger("Numbers only please. You must enter a number to continue\n\n");
+        } catch (IllegalArgumentException e) {
+            errorMessage = Terminal.textDanger("Max option exceeded try again.\n\n");
+        } finally {
+            render(); // re-render the view with error message
+        }
     }
+
 }
