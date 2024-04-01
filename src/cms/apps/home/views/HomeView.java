@@ -10,7 +10,6 @@ import cms.server.IHttpResponse;
 import cms.utils.Terminal;
 import com.github.lalyos.jfiglet.FigletFont;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  *
@@ -18,17 +17,25 @@ import java.util.Map;
  */
 public class HomeView extends BaseView {
 
-    private Map<Integer, String> userOptions;
+    /**
+     * Constructor for HomeView calls the super constructor to set up the base
+     * view instances and settings for views.
+     *
+     * Makes the request and response available throughout the class for use as
+     * needed.
+     *
+     * @param request is the IHttpRequest object
+     * @param response is the IHttpResponse object
+     */
+    public HomeView(IHttpRequest request, IHttpResponse response) {
+        super(request, response);
+    }
+
     /**
      * Renders the heading content
-     *
-     * @param request
-     * @param response
      */
     @Override
-    protected void renderContent(
-            IHttpRequest request,
-            IHttpResponse response) {
+    protected void renderContent() {
         Terminal.clearConsole();
         Terminal.addDashHeader();
         try {
@@ -46,31 +53,34 @@ public class HomeView extends BaseView {
         }
 
     }
-    
-    
+
     /**
-     * Renders the options for this view
-     *
-     * @param request
-     * @param response
+     * Sets up the available options for the home view
      */
     @Override
-    protected void renderOptions(IHttpRequest request, IHttpResponse response) {
+    protected void buildOptionsMap() {
+        addOptionForView(1, "/login", "GET");
+        addOptionForView(2, "/help", "GET");
+    }
+
+    /**
+     * Renders the options for home view.
+     */
+    @Override
+    protected void renderOptions() {
         System.out.println("          "
                 + "Please enter a number to continue + hit Enter");
         System.out.println("          (1) Login");
-        System.out.println("          (2) Exit App");
+        System.out.println("          (2) Help");
+        System.out.println("          (3) Exit App");
         System.out.println("\n");
     }
 
     /**
      * Handles the input from the user and is responsible for further routing
-     * through the application
-     *
-     * @param request
-     * @param response
+     * through the application.
      */
     @Override
-    protected void processInput(IHttpRequest request, IHttpResponse response) {
+    protected void processInput() {
     }
 }

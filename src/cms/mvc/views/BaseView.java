@@ -94,6 +94,7 @@ public abstract class BaseView implements IView {
     @Override
     public void render() {
         renderContent();
+        buildOptionsMap();
         renderOptions();
         processInput();
     }
@@ -102,6 +103,11 @@ public abstract class BaseView implements IView {
      * Abstract method for rendering the content such as headers
      */
     protected abstract void renderContent();
+
+    /**
+     * Abstract method for building the options map
+     */
+    protected abstract void buildOptionsMap();
 
     /**
      * Abstract method for rendering the options to the user for selection
