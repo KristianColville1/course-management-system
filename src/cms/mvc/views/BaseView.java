@@ -22,7 +22,7 @@ import java.util.Map;
  * Concrete classes which extend this BaseView class should carry out behaviour
  * defined here in a structured and predictable way.
  */
-public abstract class BaseView implements IView {
+public abstract class BaseView implements IView, IErrorCallback {
 
     // Base instance fields
     protected IHttpRequest request;
@@ -44,6 +44,7 @@ public abstract class BaseView implements IView {
         this.request = request;
         this.response = response;
         this.inputHandler = new InputHandler();
+        this.inputHandler.setErrorCallback(this::onError);
         errorMessage = null;
     }
 
@@ -102,10 +103,8 @@ public abstract class BaseView implements IView {
         addDefaultOptionsForView();
         Terminal.printAppHeader();
         renderHeaderContent();
-        Terminal.printAppHeader();
         renderOptions();
         buildOptionsMap();
-        processInput();
     }
 
     /**
@@ -119,6 +118,7 @@ public abstract class BaseView implements IView {
                     + "© Course Management System 2024",
                     Terminal.ANSI_YELLOW);
             displayErrorMessageOrNewLines();
+            Terminal.printAppHeader();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -135,29 +135,6 @@ public abstract class BaseView implements IView {
      *
      */
     protected abstract void renderOptions();
-
-    /**
-     * Processing the input received for a particular view
-     */
-    protected void processInput() {
-        try {
-            int input = inputHandler.promptInt("Enter your input: ");
-            routeToNextView(input);
-        } catch (NumberFormatException e) {
-            errorMessage = "\n\n" + Terminal.colorText(
-                    "Invalid input. You must enter a number not letters. "
-                    + "They are beside the selections below."
-                    + e.getMessage(),
-                    Terminal.ANSI_RED) + "\n\n";
-        } catch (IllegalArgumentException e) {
-            errorMessage = "\n\n" + Terminal.colorText(
-                    "Invalid input. You must enter a number that matches the "
-                    + "selections only.",
-                    Terminal.ANSI_RED) + "\n\n";
-        } finally {
-            render(); // re-render the view with the error message
-        }
-    }
 
     /**
      * Displays an error message for feedback to the user or just renders empty
@@ -178,4 +155,10 @@ public abstract class BaseView implements IView {
      */
     protected abstract void routeToNextView(int userInput)
             throws IllegalArgumentException;
+
+    @Override
+    public void onError(String errorMessage) {
+        this.errorMessage = errorMessage;
+        render(); // re-render the view with the error message
+    }
 }
