@@ -15,6 +15,7 @@ import cms.utils.Terminal;
  */
 public class HomeView extends BaseView {
 
+    private final int maxSelectionValue;
     /**
      * Constructor for HomeView calls the super constructor to set up the base
      * view instances and settings for views.
@@ -27,6 +28,7 @@ public class HomeView extends BaseView {
      */
     public HomeView(IHttpRequest request, IHttpResponse response) {
         super(request, response);
+        maxSelectionValue = 3;
     }
 
     /**
@@ -49,5 +51,18 @@ public class HomeView extends BaseView {
         System.out.println("          (2) Help");
         System.out.println("          (3) Exit App");
         System.out.println("\n");
+    }
+    
+    /**
+     * Routes the user to the next view they have selected
+     * @param userInput
+     * @throws IllegalArgumentException 
+     */
+    @Override
+    protected void routeToNextView(int userInput)
+            throws IllegalArgumentException {
+        if(userInput > maxSelectionValue || userInput < 0){
+            throw new IllegalArgumentException();
+        }
     }
 }

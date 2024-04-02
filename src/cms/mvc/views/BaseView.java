@@ -100,7 +100,9 @@ public abstract class BaseView implements IView {
     public void render() {
         Terminal.clearConsole();
         addDefaultOptionsForView();
+        Terminal.printAppHeader();
         renderHeaderContent();
+        Terminal.printAppHeader();
         renderOptions();
         buildOptionsMap();
         processInput();
@@ -111,13 +113,11 @@ public abstract class BaseView implements IView {
      */
     protected void renderHeaderContent() {
         try {
-            printAppHeader();
             System.out.println(
                     FigletFont.convertOneLine("           CMS  "));
             Terminal.printColorText("                    "
                     + "© Course Management System 2024",
                     Terminal.ANSI_YELLOW);
-            printAppHeader();
             displayErrorMessageOrNewLines();
         } catch (IOException e) {
             System.out.println(e);
@@ -137,17 +137,24 @@ public abstract class BaseView implements IView {
     protected abstract void renderOptions();
 
     /**
-     * Abstract method for processing the input received for a particular view
+     * Processing the input received for a particular view
      */
     protected void processInput() {
         try {
             int input = inputHandler.promptInt("Enter your input: ");
             routeToNextView(input);
         } catch (NumberFormatException e) {
-            errorMessage = Terminal.colorText(
-                    "Invalid input. You must enter a number."
+            errorMessage = "\n\n" + Terminal.colorText(
+                    "Invalid input. You must enter a number not letters. "
+                    + "They are beside the selections below."
                     + e.getMessage(),
-                    Terminal.ANSI_RED);
+                    Terminal.ANSI_RED) + "\n\n";
+        } catch (IllegalArgumentException e) {
+            errorMessage = "\n\n" + Terminal.colorText(
+                    "Invalid input. You must enter a number that matches the "
+                    + "selections only.",
+                    Terminal.ANSI_RED) + "\n\n";
+        } finally {
             render(); // re-render the view with the error message
         }
     }
@@ -169,16 +176,6 @@ public abstract class BaseView implements IView {
     /**
      * Abstract method for routing user to the next view
      */
-    protected void routeToNextView(int userInput)
-            throws IllegalArgumentException {
-    }
-
-    /**
-     * Prints the app header
-     */
-    protected void printAppHeader() {
-        System.out.println(
-                Terminal.colorText(Terminal.addDashHeader(),
-                Terminal.ANSI_MAGENTA));;
-    }
+    protected abstract void routeToNextView(int userInput)
+            throws IllegalArgumentException;
 }

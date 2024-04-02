@@ -69,8 +69,23 @@ public class Terminal {
     public static String colorText(String message, String colorCode) {
         return colorCode + message + ANSI_RESET;
     }
-    
-    public static void printColorText(String message, String colorCode){
+
+    /**
+     * prints colored text to the terminal given a color code
+     *
+     * @param message to output in a different color
+     * @param colorCode to use for the color of the text
+     */
+    public static void printColorText(String message, String colorCode) {
         System.out.println(colorCode + message + ANSI_RESET);
+    }
+
+    /**
+     * Prints the app header
+     */
+    public static void printAppHeader() {
+        System.out.println(
+                Terminal.colorText(Terminal.addDashHeader(),
+                        Terminal.ANSI_MAGENTA));;
     }
 }
