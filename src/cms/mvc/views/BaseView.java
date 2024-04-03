@@ -6,6 +6,7 @@ package cms.mvc.views;
 
 import cms.server.IHttpRequest;
 import cms.server.IHttpResponse;
+import cms.server.InternalRequestHandler;
 import cms.utils.InputHandler;
 import cms.utils.Terminal;
 import com.github.lalyos.jfiglet.FigletFont;
@@ -30,6 +31,7 @@ public abstract class BaseView implements IView, IErrorCallback {
     protected Map<Integer, List<Map<String, String>>> options;
     protected String errorMessage;
     protected InputHandler inputHandler;
+    protected int maxSelection;
 
     /**
      * Default Constructor for all views
@@ -90,6 +92,20 @@ public abstract class BaseView implements IView, IErrorCallback {
     }
 
     /**
+     * Gets the option selected by the user to help sort for next view
+     *
+     * @param option selected by the user
+     * @return the option selected or return null
+     */
+    protected Map<String, String> getOptionSelected(int option) {
+        List<Map<String, String>> routes = options.get(option);
+        if (routes != null && !routes.isEmpty()) {
+            return routes.get(option);
+        }
+        return null;
+    }
+
+    /**
      * Implementation for the IView, child classes will use this on render to
      * perform the logic views should carry out in a structured and predictable
      * way.
@@ -100,9 +116,8 @@ public abstract class BaseView implements IView, IErrorCallback {
     @Override
     public void render() {
         Terminal.clearConsole();
-        addDefaultOptionsForView();
-        Terminal.printAppHeader();
         renderHeaderContent();
+        addDefaultOptionsForView();
         renderOptions();
         buildOptionsMap();
     }
@@ -112,13 +127,15 @@ public abstract class BaseView implements IView, IErrorCallback {
      */
     protected void renderHeaderContent() {
         try {
+            Terminal.printAppHeader();
             System.out.println(
                     FigletFont.convertOneLine("           CMS  "));
             Terminal.printColorText("                    "
                     + "© Course Management System 2024",
                     Terminal.ANSI_YELLOW);
-            displayErrorMessageOrNewLines();
             Terminal.printAppHeader();
+            displayErrorMessageOrNewLines();
+            
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -151,11 +168,19 @@ public abstract class BaseView implements IView, IErrorCallback {
     }
 
     /**
-     * Abstract method for routing user to the next view
+     * Routing user to the next view
      */
-    protected abstract void routeToNextView(int userInput)
-            throws IllegalArgumentException;
+    protected void routeToNextView(int userInput) {
+        Map<String, String> optionSelected = getOptionSelected(userInput);
+        InternalRequestHandler.sendRequest(request,
+                optionSelected.get("path"),
+                optionSelected.get("method"));
+    }
 
+    /**
+     * On error re-render the view and update the error message
+     * @param errorMessage 
+     */
     @Override
     public void onError(String errorMessage) {
         this.errorMessage = errorMessage;

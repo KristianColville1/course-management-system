@@ -4,7 +4,7 @@
  */
 package cms.apps.auth.controllers;
 
-import cms.apps.auth.views.AuthLoginView;
+import cms.apps.auth.views.AuthLoginPortal;
 import cms.mvc.views.IView;
 import cms.server.ControllerBase;
 import cms.server.IHttpRequest;
@@ -20,7 +20,7 @@ public class AuthController extends ControllerBase{
     @Override
     @Route(path="/login", method="GET")
     public void handleRequest(IHttpRequest request, IHttpResponse response) {
-        IView view = new AuthLoginView();
+        IView view = new AuthLoginPortal(request, response);
     }
     
 }

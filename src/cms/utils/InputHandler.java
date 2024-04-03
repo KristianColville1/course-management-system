@@ -52,16 +52,21 @@ public class InputHandler {
     /**
      * Processing the input received for a particular view
      */
-    public int processInputAsInteger() {
+    public int processInputAsInteger(int maxSelection) {
         int input = 0;
         try {
             input = promptInt("Enter your input: ");
+            if (input > maxSelection) {
+                throw new IllegalArgumentException();
+            }
         } catch (NumberFormatException e) {
             errorCallback.onError("\n\n" + Terminal.colorText(
                     "Invalid input. You must enter a number not letters. "
-                    + "They are beside the selections below."
                     + e.getMessage(),
-                    Terminal.ANSI_RED) + "\n\n");
+                    Terminal.ANSI_RED)
+                    + "\n" + Terminal.colorText(
+                            "They are beside the selections below.",
+                            Terminal.ANSI_RED) + "\n");
         } catch (IllegalArgumentException e) {
             errorCallback.onError("\n\n" + Terminal.colorText(
                     "Invalid input. You must enter a number that matches the "
