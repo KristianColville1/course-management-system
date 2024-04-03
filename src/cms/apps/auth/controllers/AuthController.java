@@ -20,7 +20,9 @@ public class AuthController extends ControllerBase{
     @Override
     @Route(path="/login", method="GET")
     public void handleRequest(IHttpRequest request, IHttpResponse response) {
+        System.out.println("I am here in the auth controller");
         IView view = new AuthLoginPortal(request, response);
+        view.render();
     }
     
 }

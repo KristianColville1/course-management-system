@@ -7,6 +7,7 @@ package cms.mvc.views;
 import cms.server.IHttpRequest;
 import cms.server.IHttpResponse;
 import cms.server.InternalRequestHandler;
+import cms.server.SimpleHttpRequest;
 import cms.utils.InputHandler;
 import cms.utils.Terminal;
 import com.github.lalyos.jfiglet.FigletFont;
@@ -77,16 +78,13 @@ public abstract class BaseView implements IView, IErrorCallback {
      * @param path is the path to go to for the option
      */
     protected void addOptionForView(int optionNum, String method, String path) {
-        // builds the data structure consistently for the options
+        List<Map<String, String>> detailsList = options.getOrDefault(optionNum, new ArrayList<>());
         Map<String, String> detailsMap = new HashMap<>();
         detailsMap.put("scheme", request.getScheme());
         detailsMap.put("serverName", request.getServerName());
         detailsMap.put("serverPort", Integer.toString(request.getServerPort()));
         detailsMap.put("method", method);
         detailsMap.put("path", path);
-
-        // add the default exit view
-        List<Map<String, String>> detailsList = new ArrayList<>();
         detailsList.add(detailsMap);
         options.put(optionNum, detailsList);
     }
@@ -98,11 +96,12 @@ public abstract class BaseView implements IView, IErrorCallback {
      * @return the option selected or return null
      */
     protected Map<String, String> getOptionSelected(int option) {
-        List<Map<String, String>> routes = options.get(option);
-        if (routes != null && !routes.isEmpty()) {
-            return routes.get(option);
+        List<Map<String, String>> optionsList = options.get(option);
+        if (optionsList != null && !optionsList.isEmpty()) {
+            // For simplicity, assuming only one option is associated with the provided option number
+            return optionsList.get(0); // Return the first (and only) option in the list
         }
-        return null;
+        return null; // Return null if no options are found for the provided option number
     }
 
     /**
@@ -118,8 +117,8 @@ public abstract class BaseView implements IView, IErrorCallback {
         Terminal.clearConsole();
         renderHeaderContent();
         addDefaultOptionsForView();
-        renderOptions();
         buildOptionsMap();
+        renderOptions();
     }
 
     /**
@@ -135,7 +134,7 @@ public abstract class BaseView implements IView, IErrorCallback {
                     Terminal.ANSI_YELLOW);
             Terminal.printAppHeader();
             displayErrorMessageOrNewLines();
-            
+
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -171,15 +170,24 @@ public abstract class BaseView implements IView, IErrorCallback {
      * Routing user to the next view
      */
     protected void routeToNextView(int userInput) {
-        Map<String, String> optionSelected = getOptionSelected(userInput);
-        InternalRequestHandler.sendRequest(request,
-                optionSelected.get("path"),
-                optionSelected.get("method"));
+        Map<String, String> option = getOptionSelected(userInput);
+        System.out.println(option);
+        System.out.println(option.get("path"));
+        System.out.println(option.get("method"));
+        System.out.println(request.getServerPort());
+        if (option != null) {
+            InternalRequestHandler.sendRequest(request,
+                    option.get("path"),
+                    option.get("method"));
+        } else {
+            System.out.println("No options found for the provided input.");
+        }
     }
 
     /**
      * On error re-render the view and update the error message
-     * @param errorMessage 
+     *
+     * @param errorMessage
      */
     @Override
     public void onError(String errorMessage) {

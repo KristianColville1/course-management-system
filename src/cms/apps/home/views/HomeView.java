@@ -35,8 +35,8 @@ public class HomeView extends BaseView {
      */
     @Override
     protected void buildOptionsMap() {
-        addOptionForView(1, "/login", "GET");
-        addOptionForView(2, "/help", "GET");
+        addOptionForView(1, "GET", "/login");
+        addOptionForView(2, "GET", "/help");
     }
 
     /**

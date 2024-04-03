@@ -65,9 +65,9 @@ public class AppInitialiser {
                 "localhost",
                 portToRouteTo,
                 "GET",
-                "/");
+                "");
         InternalRequestHandler.sendRequest(request,
-                "/",
+                "",
                 "GET");
     }
 }
