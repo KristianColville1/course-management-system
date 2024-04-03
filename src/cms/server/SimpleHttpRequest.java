@@ -4,8 +4,10 @@
  */
 package cms.server;
 
+import cms.server.utils.RequestHistory;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  *
@@ -13,6 +15,14 @@ import java.util.Map;
  *
  * SimpleHttpRequest is an implementation of the IHttpRequest. Custom request
  * object set up.
+ *
+ * This class is structured such that it allows a request to be created as base
+ * this is not to be confused with the server adapters. This simple HTTP request
+ * is a base object that can be used to create an initial request so that it can
+ * work with the adapters and the server in a server agnostic manner.
+ *
+ * It implements the IHttpRequest object to conform with the rest of the request
+ * specific logic throughout the application
  */
 public class SimpleHttpRequest implements IHttpRequest {
 
@@ -25,6 +35,7 @@ public class SimpleHttpRequest implements IHttpRequest {
     private final Map<String, String> headers = new HashMap<>();
     private Map<String, String[]> parameters;
     private Integer userId;
+    private RequestHistory requestHistory;
 
     /**
      * Constructor for SimpleHttpRequest sets up the request object with the
@@ -47,6 +58,7 @@ public class SimpleHttpRequest implements IHttpRequest {
         this.serverPort = serverPort;
         this.method = method;
         this.path = path;
+        this.requestHistory = new RequestHistory();
     }
 
     /**
@@ -159,8 +171,10 @@ public class SimpleHttpRequest implements IHttpRequest {
     public String getRequestURI() {
         return this.path;
     }
+
     /**
      * Gets the request URL by building it from the scheme, host + port & path
+     *
      * @return request URL
      */
     @Override
@@ -170,6 +184,7 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Adds a header to the request
+     *
      * @param name of the header
      * @param value to attach to the header
      */
@@ -179,9 +194,29 @@ public class SimpleHttpRequest implements IHttpRequest {
 
     /**
      * Adds parameters to the request
-     * @param parameters 
+     *
+     * @param parameters
      */
     public void setParameters(Map<String, String[]> parameters) {
         this.parameters = parameters;
+    }
+
+    /**
+     * Sets the request history of the request.
+     *
+     * @param requestHistory the request history to set
+     */
+    public void setRequestHistory(RequestHistory requestHistory) {
+        this.requestHistory = requestHistory;
+    }
+
+    /**
+     * Gets the request history of the request.
+     *
+     * @return the request history
+     */
+    @Override
+    public RequestHistory getRequestHistory() {
+        return requestHistory;
     }
 }

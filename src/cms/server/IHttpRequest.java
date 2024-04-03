@@ -4,6 +4,7 @@
  */
 package cms.server;
 
+import cms.server.utils.RequestHistory;
 import java.util.Map;
 
 /**
@@ -104,4 +105,6 @@ public interface IHttpRequest {
      * @return the request URL in full
      */
     String getRequestURL();
+    
+    RequestHistory getRequestHistory();
 }

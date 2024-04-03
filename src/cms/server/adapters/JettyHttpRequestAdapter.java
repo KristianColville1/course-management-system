@@ -5,6 +5,7 @@
 package cms.server.adapters;
 
 import cms.server.IHttpRequest;
+import cms.server.utils.RequestHistory;
 import java.util.Enumeration;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
 
     // instance fields
     private final HttpServletRequest originalRequest;
+    private RequestHistory requestHistory; // Field to store the request history
     private Integer userId;
 
     /**
@@ -141,23 +143,44 @@ public class JettyHttpRequestAdapter implements IHttpRequest {
     public int getServerPort() {
         return originalRequest.getServerPort();
     }
-    
+
     /**
-     * Gets the request URI from the request made 
+     * Gets the request URI from the request made
+     *
      * @return the request URI
      */
     @Override
-    public String getRequestURI(){
+    public String getRequestURI() {
         return originalRequest.getRequestURI();
     }
-    
+
     /**
      * Gets the request URL of the request made
+     *
      * @return the request URL
      */
     @Override
-    public String getRequestURL(){
+    public String getRequestURL() {
         // converts the StringBuffer to a string
         return originalRequest.getRequestURL().toString();
+    }
+
+    /**
+     * Sets the request history of the request.
+     *
+     * @param requestHistory the request history to set
+     */
+    public void setRequestHistory(RequestHistory requestHistory) {
+        this.requestHistory = requestHistory;
+    }
+
+    /**
+     * Gets the request history of the request.
+     *
+     * @return the request history
+     */
+    @Override
+    public RequestHistory getRequestHistory() {
+        return requestHistory;
     }
 }
